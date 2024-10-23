@@ -24,15 +24,16 @@
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
-    
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
         <!-- File Type-->
         <fileType name="CSP Drogon" implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonFileType" fileNames="INSTANCE" language="CSPDrogon" extensions="csp"/>
 
+        <annotator language="CSPDrogon" implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonAnnotator"/>
         <lang.parserDefinition language="CSPDrogon" implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonParserDefinition"/>
         <lang.syntaxHighlighter language="CSPDrogon" implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonHighlighter"/>
+
         <!-- Completion contributor -->
         <!--<completion.contributor language="CSPDrogon" implementationClass="com.asdhammu.cspdrogon.CSPDrogonCompletionContributor"/>-->
 

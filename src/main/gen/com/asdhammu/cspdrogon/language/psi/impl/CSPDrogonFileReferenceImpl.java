@@ -11,14 +11,14 @@ import static com.asdhammu.cspdrogon.language.psi.CSPDrogonTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.asdhammu.cspdrogon.language.psi.*;
 
-public class CSPDrogonLayoutDirectiveImpl extends ASTWrapperPsiElement implements CSPDrogonLayoutDirective {
+public class CSPDrogonFileReferenceImpl extends ASTWrapperPsiElement implements CSPDrogonFileReference {
 
-  public CSPDrogonLayoutDirectiveImpl(@NotNull ASTNode node) {
+  public CSPDrogonFileReferenceImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull CSPDrogonVisitor visitor) {
-    visitor.visitLayoutDirective(this);
+    visitor.visitFileReference(this);
   }
 
   @Override
@@ -28,9 +28,9 @@ public class CSPDrogonLayoutDirectiveImpl extends ASTWrapperPsiElement implement
   }
 
   @Override
-  @Nullable
-  public CSPDrogonFileReference getFileReference() {
-    return findChildByClass(CSPDrogonFileReference.class);
+  @NotNull
+  public PsiElement getFileName() {
+    return findNotNullChildByType(FILE_NAME);
   }
 
 }

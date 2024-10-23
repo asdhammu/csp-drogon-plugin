@@ -28,9 +28,9 @@ public class CSPDrogonViewDirectiveImpl extends ASTWrapperPsiElement implements 
   }
 
   @Override
-  @NotNull
-  public PsiElement getFileName() {
-    return findNotNullChildByType(FILE_NAME);
+  @Nullable
+  public CSPDrogonFileReference getFileReference() {
+    return findChildByClass(CSPDrogonFileReference.class);
   }
 
 }

@@ -11,6 +11,8 @@
     elementTypeClass="com.asdhammu.cspdrogon.language.psi.CSPDrogonElementType"
     tokenTypeClass="com.asdhammu.cspdrogon.language.psi.CSPDrogonTokenType"
 
+    psiImplUtilClass="com.asdhammu.cspdrogon.language.psi.impl.CSPDrogonPsiImplUtil"
+
     tokens = [
         FILE_NAME="regexp:[a-zA-Z][a-zA-Z0-9_-]*"
         PARAM_VARIABLE_NAME="regexp:[a-zA-Z][a-zA-Z0-9_-]*"
@@ -28,10 +30,47 @@ CSPDirectiveFile ::= item_*
 
 private item_ ::= (csp_directive|OTHER)
 
-csp_directive ::= view_directive | layout_directive | param_directive
+csp_directive ::= (view_directive | layout_directive | param_directive ) {
+pin=1
+recoverWhile=directive_recover
+}
 
-view_directive ::= VIEW_START WHITE_SPACE* FILE_NAME CSP_EXT WHITE_SPACE* DIRECTIVE_END
+view_directive ::= VIEW_START directive_content {
+pin=1
+methods=[getDirectiveType]
+}
 
-layout_directive ::= LAYOUT_START WHITE_SPACE* FILE_NAME CSP_EXT WHITE_SPACE* DIRECTIVE_END
+layout_directive ::= LAYOUT_START directive_content{
+pin=1
+methods=[getDirectiveType]
+}
 
-param_directive ::= PARAM_START WHITE_SPACE* PARAM_VARIABLE_NAME WHITE_SPACE* PARAM_END
+private directive_content ::= WHITE_SPACE* file_reference WHITE_SPACE* DIRECTIVE_END{
+pin=2
+recoverWhile=directive_content_recover
+}
+
+file_reference ::= FILE_NAME CSP_EXT {
+pin=1
+recoverWhile=file_reference_recover
+}
+
+private file_reference_recover ::= !(DIRECTIVE_END | WHITE_SPACE)
+
+private directive_content_recover ::= !(VIEW_START | LAYOUT_START | PARAM_START | DIRECTIVE_END | '<')
+
+param_directive ::= PARAM_START param_directive_content{
+    pin = 1
+    /*mixin="com.asdhammu.cspdrogon.language.psi.impl.CSPDrogonNamedElementImpl"
+    implements="com.asdhammu.cspdrogon.language.psi.CSPDrogonNamedElement"
+    methods=[getKey getValue getName setName getNameIdentifier getPresentation]*/
+}
+
+private param_directive_content ::= WHITE_SPACE* PARAM_VARIABLE_NAME WHITE_SPACE* PARAM_END{
+pin=2
+recoverWhile=param_content_recover
+}
+
+private param_content_recover ::= !(PARAM_START | VIEW_START | LAYOUT_START | PARAM_END | '<')
+
+private directive_recover ::= !(VIEW_START | LAYOUT_START | PARAM_START | '<')

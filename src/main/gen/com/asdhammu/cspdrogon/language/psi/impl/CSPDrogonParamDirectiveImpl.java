@@ -28,9 +28,9 @@ public class CSPDrogonParamDirectiveImpl extends ASTWrapperPsiElement implements
   }
 
   @Override
-  @NotNull
+  @Nullable
   public PsiElement getParamVariableName() {
-    return findNotNullChildByType(PARAM_VARIABLE_NAME);
+    return findChildByType(PARAM_VARIABLE_NAME);
   }
 
 }

@@ -9,6 +9,7 @@ import com.asdhammu.cspdrogon.language.psi.impl.*;
 public interface CSPDrogonTypes {
 
   IElementType CSP_DIRECTIVE = new CSPDrogonElementType("CSP_DIRECTIVE");
+  IElementType FILE_REFERENCE = new CSPDrogonElementType("FILE_REFERENCE");
   IElementType LAYOUT_DIRECTIVE = new CSPDrogonElementType("LAYOUT_DIRECTIVE");
   IElementType PARAM_DIRECTIVE = new CSPDrogonElementType("PARAM_DIRECTIVE");
   IElementType VIEW_DIRECTIVE = new CSPDrogonElementType("VIEW_DIRECTIVE");
@@ -29,6 +30,9 @@ public interface CSPDrogonTypes {
       IElementType type = node.getElementType();
       if (type == CSP_DIRECTIVE) {
         return new CSPDrogonCspDirectiveImpl(node);
+      }
+      else if (type == FILE_REFERENCE) {
+        return new CSPDrogonFileReferenceImpl(node);
       }
       else if (type == LAYOUT_DIRECTIVE) {
         return new CSPDrogonLayoutDirectiveImpl(node);

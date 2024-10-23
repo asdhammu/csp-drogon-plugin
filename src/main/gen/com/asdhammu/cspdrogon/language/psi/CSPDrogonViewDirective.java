@@ -7,7 +7,11 @@ import com.intellij.psi.PsiElement;
 
 public interface CSPDrogonViewDirective extends PsiElement {
 
-  @NotNull
-  PsiElement getFileName();
+  @Nullable
+  CSPDrogonFileReference getFileReference();
+
+  //WARNING: getDirectiveType(...) is skipped
+  //matching getDirectiveType(CSPDrogonViewDirective, ...)
+  //methods are not found in CSPDrogonPsiImplUtil
 
 }

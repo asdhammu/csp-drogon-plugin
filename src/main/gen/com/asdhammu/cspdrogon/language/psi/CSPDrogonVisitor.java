@@ -11,6 +11,10 @@ public class CSPDrogonVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitFileReference(@NotNull CSPDrogonFileReference o) {
+    visitPsiElement(o);
+  }
+
   public void visitLayoutDirective(@NotNull CSPDrogonLayoutDirective o) {
     visitPsiElement(o);
   }
