@@ -14,15 +14,15 @@ public interface CSPDrogonTypes {
   IElementType PARAM_DIRECTIVE = new CSPDrogonElementType("PARAM_DIRECTIVE");
   IElementType VIEW_DIRECTIVE = new CSPDrogonElementType("VIEW_DIRECTIVE");
 
-  IElementType CSP_EXT = new CSPDrogonTokenType(".csp");
-  IElementType DIRECTIVE_END = new CSPDrogonTokenType("%>");
+  IElementType CSP_EXT = new CSPDrogonTokenType("CSP_EXT");
+  IElementType DIRECTIVE_END = new CSPDrogonTokenType("DIRECTIVE_END");
   IElementType FILE_NAME = new CSPDrogonTokenType("FILE_NAME");
-  IElementType LAYOUT_START = new CSPDrogonTokenType("<%layout");
+  IElementType LAYOUT_START = new CSPDrogonTokenType("LAYOUT_START");
   IElementType OTHER = new CSPDrogonTokenType("OTHER");
-  IElementType PARAM_END = new CSPDrogonTokenType("]]");
-  IElementType PARAM_START = new CSPDrogonTokenType("[[");
+  IElementType PARAM_END = new CSPDrogonTokenType("PARAM_END");
+  IElementType PARAM_START = new CSPDrogonTokenType("PARAM_START");
   IElementType PARAM_VARIABLE_NAME = new CSPDrogonTokenType("PARAM_VARIABLE_NAME");
-  IElementType VIEW_START = new CSPDrogonTokenType("<%view");
+  IElementType VIEW_START = new CSPDrogonTokenType("VIEW_START");
   IElementType WHITE_SPACE = new CSPDrogonTokenType("WHITE_SPACE");
 
   class Factory {

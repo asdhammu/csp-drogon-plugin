@@ -27,10 +27,4 @@ public class CSPDrogonFileReferenceImpl extends ASTWrapperPsiElement implements 
     else super.accept(visitor);
   }
 
-  @Override
-  @NotNull
-  public PsiElement getFileName() {
-    return findNotNullChildByType(FILE_NAME);
-  }
-
 }

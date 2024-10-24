@@ -1,6 +1,0 @@
-FILE
-  VIEW_BLOCK ('<%view Header.csp%>')
-    VIEW_BLOCK_START ('<%')
-    VIEW_NAME ('view')
-    IDENTIFIER_CSP_FILE ('header.csp')
-    VIEW_BLOCK_END ('%>')

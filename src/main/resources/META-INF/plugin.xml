@@ -3,9 +3,9 @@
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
     <id>CSPDrogonPlugin</id>
 
-    <!-- Public plugin name should be written in Title Case.
+    <!-- Public plugin name should be written in
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
-    <name>CSP Drogon Plugin</name>
+    <name>Csp Drogon</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="asdhammu@pm.me" url="https://asdhammu.com">Amandeep</vendor>
@@ -17,6 +17,7 @@
         <![CDATA[
             <ul>
                 <li>CSP Drogon Plugin</li>
+                <li>Plugin to parse csp directive and variables</li>
             </ul>
         ]]>
     </description>
@@ -30,6 +31,8 @@
         <!-- File Type-->
         <fileType name="CSP Drogon" implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonFileType" fileNames="INSTANCE" language="CSPDrogon" extensions="csp"/>
 
+        <!--<fileType.fileViewProviderFactory implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonFileViewProviderFactory"
+                                          filetype="csp"/>-->
         <annotator language="CSPDrogon" implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonAnnotator"/>
         <lang.parserDefinition language="CSPDrogon" implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonParserDefinition"/>
         <lang.syntaxHighlighter language="CSPDrogon" implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonHighlighter"/>

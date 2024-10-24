@@ -27,10 +27,4 @@ public class CSPDrogonParamDirectiveImpl extends ASTWrapperPsiElement implements
     else super.accept(visitor);
   }
 
-  @Override
-  @Nullable
-  public PsiElement getParamVariableName() {
-    return findChildByType(PARAM_VARIABLE_NAME);
-  }
-
 }

@@ -7,7 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface CSPDrogonParamDirective extends PsiElement {
 
-  @Nullable
-  PsiElement getParamVariableName();
-
 }

@@ -7,7 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface CSPDrogonFileReference extends PsiElement {
 
-  @NotNull
-  PsiElement getFileName();
-
 }

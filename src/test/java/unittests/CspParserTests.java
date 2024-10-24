@@ -10,13 +10,13 @@ public class CspParserTests extends ParsingTestCase {
     }
 
 
-    public void testParsingTestData(){
+    public void testParsingTestData() {
         doTest(true);
     }
 
     @Override
     protected String getTestDataPath() {
-        return "/src/test/testData/";
+        return "testData";
     }
 
     @Override
