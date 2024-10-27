@@ -18,7 +18,6 @@ public interface CSPDrogonTypes {
   IElementType DIRECTIVE_END = new CSPDrogonTokenType("DIRECTIVE_END");
   IElementType FILE_NAME = new CSPDrogonTokenType("FILE_NAME");
   IElementType LAYOUT_START = new CSPDrogonTokenType("LAYOUT_START");
-  IElementType OTHER = new CSPDrogonTokenType("OTHER");
   IElementType PARAM_END = new CSPDrogonTokenType("PARAM_END");
   IElementType PARAM_START = new CSPDrogonTokenType("PARAM_START");
   IElementType PARAM_VARIABLE_NAME = new CSPDrogonTokenType("PARAM_VARIABLE_NAME");

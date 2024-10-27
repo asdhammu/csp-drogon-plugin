@@ -5,6 +5,7 @@ import com.asdhammu.cspdrogon.language.psi.CSPDrogonTypes;
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.TokenType;
+import static com.asdhammu.cspdrogon.language.CSPDrogonParserDefinition.*;
 
 %%
 
@@ -21,15 +22,22 @@ PARAM_NAME=[a-zA-Z_][a-zA-Z0-9_]*
 
 %state IN_DIRECTIVE
 %state IN_PARAMETER
-
+%state IN_COMMENT
 
 %%
 
 <YYINITIAL> {
   "<%view"                        { yybegin(IN_DIRECTIVE); return CSPDrogonTypes.VIEW_START; }
   "<%layout"                      { yybegin(IN_DIRECTIVE); return CSPDrogonTypes.LAYOUT_START; }
-  "[["                            {yybegin(IN_PARAMETER); return CSPDrogonTypes.PARAM_START;}
+  "[["                            { yybegin(IN_PARAMETER); return CSPDrogonTypes.PARAM_START;}
+  "<!--"                          { yybegin(IN_COMMENT);return CSP_COMMENT_START;}
   {WHITE_SPACE}                   { return TokenType.WHITE_SPACE; }
+}
+
+<IN_COMMENT>{
+    {PARAM_NAME}                {return CSP_COMMENT_CONTENT;}
+    "-->"                       {yybegin(YYINITIAL);return CSP_COMMENT_END;}
+    {WHITE_SPACE}              { return TokenType.WHITE_SPACE; }
 }
 
 <IN_DIRECTIVE> {
@@ -45,4 +53,4 @@ PARAM_NAME=[a-zA-Z_][a-zA-Z0-9_]*
   {WHITE_SPACE}             {return TokenType.WHITE_SPACE;}
 }
 
-[^]                               { return TokenType.BAD_CHARACTER; }
+[^]                               { yybegin(YYINITIAL);return TokenType.BAD_CHARACTER; }

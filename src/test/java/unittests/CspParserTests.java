@@ -14,6 +14,10 @@ public class CspParserTests extends ParsingTestCase {
         doTest(true);
     }
 
+    public void testCommentData(){
+        doTest(true);
+    }
+
     @Override
     protected String getTestDataPath() {
         return "testData";

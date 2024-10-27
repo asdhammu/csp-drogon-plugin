@@ -28,14 +28,21 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
+
+        <!--<lang.elementManipulator order="first"
+                forClass="com.asdhammu.cspdrogon.language.psi.impl.CSPDrogonASTFactory$CSPDrogonCommentImpl"
+                implementationClass="com.asdhammu.cspdrogon.editor.ExtendedPsiCommentManipulator"/>-->
         <!-- File Type-->
-        <fileType name="CSP Drogon" implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonFileType" fileNames="INSTANCE" language="CSPDrogon" extensions="csp"/>
+        <fileType name="CSP Drogon" implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonFileType"
+                  fileNames="INSTANCE" language="CSPDrogon" extensions="csp"/>
 
         <!--<fileType.fileViewProviderFactory implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonFileViewProviderFactory"
                                           filetype="csp"/>-->
         <annotator language="CSPDrogon" implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonAnnotator"/>
-        <lang.parserDefinition language="CSPDrogon" implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonParserDefinition"/>
-        <lang.syntaxHighlighter language="CSPDrogon" implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonHighlighter"/>
+        <lang.parserDefinition language="CSPDrogon"
+                               implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonParserDefinition"/>
+        <lang.syntaxHighlighter language="CSPDrogon"
+                                implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonHighlighter"/>
 
         <!-- Completion contributor -->
         <!--<completion.contributor language="CSPDrogon" implementationClass="com.asdhammu.cspdrogon.CSPDrogonCompletionContributor"/>-->

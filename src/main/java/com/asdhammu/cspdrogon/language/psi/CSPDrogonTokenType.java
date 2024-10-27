@@ -6,12 +6,7 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
 public class CSPDrogonTokenType extends IElementType {
-    protected CSPDrogonTokenType(@NonNls @NotNull String debugName) {
+    public CSPDrogonTokenType(@NonNls @NotNull String debugName) {
         super(debugName, CSPDrogonLanguage.INSTANCE);
-    }
-
-    @Override
-    public String toString() {
-        return "CSPDrogonTokenType." + super.toString();
     }
 }

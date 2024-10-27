@@ -16,7 +16,7 @@
 
 CSPDirectiveFile ::= item_*
 
-private item_ ::= (csp_directive|OTHER)
+private item_ ::= (csp_directive)
 
 csp_directive ::= (view_directive | layout_directive | param_directive ) {
 pin=1

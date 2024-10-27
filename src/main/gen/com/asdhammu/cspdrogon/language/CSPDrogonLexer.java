@@ -8,6 +8,7 @@ import com.asdhammu.cspdrogon.language.psi.CSPDrogonTypes;
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.TokenType;
+import static com.asdhammu.cspdrogon.language.CSPDrogonParserDefinition.*;
 
 
 class CSPDrogonLexer implements FlexLexer {
@@ -22,6 +23,7 @@ class CSPDrogonLexer implements FlexLexer {
   public static final int YYINITIAL = 0;
   public static final int IN_DIRECTIVE = 2;
   public static final int IN_PARAMETER = 4;
+  public static final int IN_COMMENT = 6;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -30,7 +32,7 @@ class CSPDrogonLexer implements FlexLexer {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = {
-     0,  0,  1,  1,  2, 2
+     0,  0,  1,  1,  2,  2,  3, 3
   };
 
   /**
@@ -67,12 +69,12 @@ class CSPDrogonLexer implements FlexLexer {
   private static final int [] ZZ_CMAP_BLOCKS = zzUnpackcmap_blocks();
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
-    "\11\0\5\1\22\0\1\1\4\0\1\2\7\0\1\3"+
-    "\1\4\1\0\12\5\2\0\1\6\1\0\1\7\2\0"+
-    "\32\10\1\11\1\0\1\12\1\0\1\10\1\0\1\13"+
-    "\1\10\1\14\1\10\1\15\3\10\1\16\2\10\1\17"+
-    "\2\10\1\20\1\21\2\10\1\22\1\23\1\24\1\25"+
-    "\1\26\1\10\1\27\1\10\u0185\0";
+    "\11\0\5\1\22\0\1\1\1\2\3\0\1\3\7\0"+
+    "\1\4\1\5\1\0\12\6\2\0\1\7\1\0\1\10"+
+    "\2\0\32\11\1\12\1\0\1\13\1\0\1\11\1\0"+
+    "\1\14\1\11\1\15\1\11\1\16\3\11\1\17\2\11"+
+    "\1\20\2\11\1\21\1\22\2\11\1\23\1\24\1\25"+
+    "\1\26\1\27\1\11\1\30\1\11\u0185\0";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[512];
@@ -99,12 +101,12 @@ class CSPDrogonLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\3\0\1\1\1\2\3\1\1\3\1\1\1\4\1\1"+
-    "\1\0\1\5\1\6\1\0\1\7\5\0\1\10\3\0"+
-    "\1\11\1\0\1\12";
+    "\4\0\1\1\1\2\3\1\1\3\1\1\1\4\2\1"+
+    "\1\5\2\0\1\6\1\7\1\0\1\10\5\0\1\11"+
+    "\1\12\2\0\1\13\3\0\1\14\1\0\1\15";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[29];
+    int [] result = new int[37];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -129,13 +131,14 @@ class CSPDrogonLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\30\0\60\0\110\0\140\0\170\0\220\0\250"+
-    "\0\300\0\330\0\360\0\u0108\0\u0120\0\110\0\110\0\u0138"+
-    "\0\110\0\u0150\0\u0168\0\u0180\0\u0198\0\u01b0\0\110\0\u01c8"+
-    "\0\u01e0\0\u01f8\0\110\0\u0210\0\110";
+    "\0\0\0\31\0\62\0\113\0\144\0\175\0\226\0\257"+
+    "\0\310\0\341\0\372\0\u0113\0\u012c\0\u0145\0\u015e\0\u0177"+
+    "\0\u0190\0\144\0\144\0\u01a9\0\144\0\u01c2\0\u01db\0\u01f4"+
+    "\0\u020d\0\u0226\0\144\0\144\0\u023f\0\u0258\0\144\0\u0271"+
+    "\0\u028a\0\u02a3\0\144\0\u02bc\0\144";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[29];
+    int [] result = new int[37];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -158,19 +161,22 @@ class CSPDrogonLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpacktrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\4\1\5\4\4\1\6\2\4\1\7\17\4\1\5"+
-    "\1\10\1\11\1\12\1\11\2\4\1\11\2\4\15\11"+
-    "\1\4\1\5\6\4\1\13\1\4\1\14\15\13\31\0"+
-    "\1\5\30\0\1\15\36\0\1\16\25\0\1\17\23\0"+
-    "\1\11\1\0\1\11\2\0\1\11\2\0\15\11\14\0"+
-    "\1\20\20\0\1\13\2\0\1\13\2\0\15\13\12\0"+
-    "\1\21\34\0\1\22\5\0\1\23\24\0\1\24\20\0"+
-    "\1\25\32\0\1\26\32\0\1\27\35\0\1\30\15\0"+
-    "\1\31\32\0\1\32\35\0\1\33\25\0\1\34\26\0"+
-    "\1\35\4\0";
+    "\1\5\1\6\5\5\1\7\2\5\1\10\17\5\1\6"+
+    "\1\5\1\11\1\12\1\13\1\12\2\5\1\12\2\5"+
+    "\15\12\1\5\1\6\7\5\1\14\1\5\1\15\15\14"+
+    "\1\5\1\6\2\5\1\16\4\5\1\17\2\5\15\17"+
+    "\32\0\1\6\31\0\1\20\1\21\37\0\1\22\26\0"+
+    "\1\23\24\0\1\12\1\0\1\12\2\0\1\12\2\0"+
+    "\15\12\15\0\1\24\21\0\1\14\2\0\1\14\2\0"+
+    "\15\14\13\0\1\25\21\0\1\26\32\0\1\17\2\0"+
+    "\1\17\2\0\15\17\4\0\1\27\44\0\1\30\5\0"+
+    "\1\31\25\0\1\32\15\0\1\33\24\0\1\34\40\0"+
+    "\1\35\33\0\1\36\33\0\1\37\36\0\1\40\16\0"+
+    "\1\41\33\0\1\42\36\0\1\43\26\0\1\44\27\0"+
+    "\1\45\4\0";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[552];
+    int [] result = new int[725];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -208,11 +214,11 @@ class CSPDrogonLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\3\0\1\11\10\1\1\0\2\11\1\0\1\11\5\0"+
-    "\1\11\3\0\1\11\1\0\1\11";
+    "\4\0\1\11\12\1\2\0\2\11\1\0\1\11\5\0"+
+    "\2\11\2\0\1\11\3\0\1\11\1\0\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[29];
+    int [] result = new int[37];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -534,55 +540,70 @@ class CSPDrogonLexer implements FlexLexer {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { return TokenType.BAD_CHARACTER;
+            { yybegin(YYINITIAL);return TokenType.BAD_CHARACTER;
             }
           // fall through
-          case 11: break;
+          case 14: break;
           case 2:
             { return TokenType.WHITE_SPACE;
             }
           // fall through
-          case 12: break;
+          case 15: break;
           case 3:
             { return CSPDrogonTypes.FILE_NAME;
             }
           // fall through
-          case 13: break;
+          case 16: break;
           case 4:
             { return CSPDrogonTypes.PARAM_VARIABLE_NAME;
             }
           // fall through
-          case 14: break;
-          case 5:
-            { yybegin(IN_PARAMETER); return CSPDrogonTypes.PARAM_START;
-            }
-          // fall through
-          case 15: break;
-          case 6:
-            { yybegin(YYINITIAL); return CSPDrogonTypes.DIRECTIVE_END;
-            }
-          // fall through
-          case 16: break;
-          case 7:
-            { yybegin(YYINITIAL); return CSPDrogonTypes.PARAM_END;
-            }
-          // fall through
           case 17: break;
-          case 8:
-            { return CSPDrogonTypes.CSP_EXT;
+          case 5:
+            { return CSP_COMMENT_CONTENT;
             }
           // fall through
           case 18: break;
-          case 9:
-            { yybegin(IN_DIRECTIVE); return CSPDrogonTypes.VIEW_START;
+          case 6:
+            { yybegin(IN_PARAMETER); return CSPDrogonTypes.PARAM_START;
             }
           // fall through
           case 19: break;
-          case 10:
-            { yybegin(IN_DIRECTIVE); return CSPDrogonTypes.LAYOUT_START;
+          case 7:
+            { yybegin(YYINITIAL); return CSPDrogonTypes.DIRECTIVE_END;
             }
           // fall through
           case 20: break;
+          case 8:
+            { yybegin(YYINITIAL); return CSPDrogonTypes.PARAM_END;
+            }
+          // fall through
+          case 21: break;
+          case 9:
+            { yybegin(YYINITIAL);return CSP_COMMENT_END;
+            }
+          // fall through
+          case 22: break;
+          case 10:
+            { yybegin(IN_COMMENT);return CSP_COMMENT_START;
+            }
+          // fall through
+          case 23: break;
+          case 11:
+            { return CSPDrogonTypes.CSP_EXT;
+            }
+          // fall through
+          case 24: break;
+          case 12:
+            { yybegin(IN_DIRECTIVE); return CSPDrogonTypes.VIEW_START;
+            }
+          // fall through
+          case 25: break;
+          case 13:
+            { yybegin(IN_DIRECTIVE); return CSPDrogonTypes.LAYOUT_START;
+            }
+          // fall through
+          case 26: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

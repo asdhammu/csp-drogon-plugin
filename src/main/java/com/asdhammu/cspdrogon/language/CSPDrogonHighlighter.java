@@ -29,7 +29,7 @@ public class CSPDrogonHighlighter extends SyntaxHighlighterBase {
             TextAttributesKey.createTextAttributesKey(CSPDrogonTypes.PARAM_VARIABLE_NAME.toString(), DefaultLanguageHighlighterColors.IDENTIFIER);
 
     private static final TextAttributesKey[] LAYOUT_DIRECTIVE_START_KEYS = new TextAttributesKey[]{LAYOUT_DIRECTIVE_START};
-    private static final TextAttributesKey[] VIEW_DIRECTIVE_START_KEYS = new TextAttributesKey[]{LAYOUT_DIRECTIVE_START};
+    private static final TextAttributesKey[] VIEW_DIRECTIVE_START_KEYS = new TextAttributesKey[]{VIEW_DIRECTIVE_START};
     private static final TextAttributesKey[] DIRECTIVE_END_KEYS = new TextAttributesKey[]{DIRECTIVE_END};
     private static final TextAttributesKey[] FILE_NAME_KEYS = new TextAttributesKey[]{FILE_NAME};
     private static final TextAttributesKey[] PARAM_START_KEYS = new TextAttributesKey[]{PARAM_START};
