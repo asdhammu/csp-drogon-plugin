@@ -101,12 +101,13 @@ class CSPDrogonLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\4\0\1\1\1\2\3\1\1\3\1\1\1\4\2\1"+
-    "\1\5\2\0\1\6\1\7\1\0\1\10\5\0\1\11"+
-    "\1\12\2\0\1\13\3\0\1\14\1\0\1\15";
+    "\3\0\1\1\1\2\1\3\3\2\1\4\1\2\1\5"+
+    "\1\2\1\1\1\2\2\0\1\6\1\7\1\0\1\10"+
+    "\7\0\1\11\1\12\2\0\1\13\3\0\1\14\1\0"+
+    "\1\15";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[37];
+    int [] result = new int[39];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -134,11 +135,11 @@ class CSPDrogonLexer implements FlexLexer {
     "\0\0\0\31\0\62\0\113\0\144\0\175\0\226\0\257"+
     "\0\310\0\341\0\372\0\u0113\0\u012c\0\u0145\0\u015e\0\u0177"+
     "\0\u0190\0\144\0\144\0\u01a9\0\144\0\u01c2\0\u01db\0\u01f4"+
-    "\0\u020d\0\u0226\0\144\0\144\0\u023f\0\u0258\0\144\0\u0271"+
-    "\0\u028a\0\u02a3\0\144\0\u02bc\0\144";
+    "\0\u020d\0\u0226\0\u023f\0\u0258\0\144\0\144\0\u0271\0\u028a"+
+    "\0\144\0\u02a3\0\u02bc\0\u02d5\0\144\0\u02ee\0\144";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[37];
+    int [] result = new int[39];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -164,19 +165,19 @@ class CSPDrogonLexer implements FlexLexer {
     "\1\5\1\6\5\5\1\7\2\5\1\10\17\5\1\6"+
     "\1\5\1\11\1\12\1\13\1\12\2\5\1\12\2\5"+
     "\15\12\1\5\1\6\7\5\1\14\1\5\1\15\15\14"+
-    "\1\5\1\6\2\5\1\16\4\5\1\17\2\5\15\17"+
-    "\32\0\1\6\31\0\1\20\1\21\37\0\1\22\26\0"+
-    "\1\23\24\0\1\12\1\0\1\12\2\0\1\12\2\0"+
-    "\15\12\15\0\1\24\21\0\1\14\2\0\1\14\2\0"+
-    "\15\14\13\0\1\25\21\0\1\26\32\0\1\17\2\0"+
-    "\1\17\2\0\15\17\4\0\1\27\44\0\1\30\5\0"+
-    "\1\31\25\0\1\32\15\0\1\33\24\0\1\34\40\0"+
-    "\1\35\33\0\1\36\33\0\1\37\36\0\1\40\16\0"+
-    "\1\41\33\0\1\42\36\0\1\43\26\0\1\44\27\0"+
-    "\1\45\4\0";
+    "\4\16\1\17\24\16\32\0\1\6\31\0\1\20\1\21"+
+    "\37\0\1\22\26\0\1\23\24\0\1\12\1\0\1\12"+
+    "\2\0\1\12\2\0\15\12\15\0\1\24\21\0\1\14"+
+    "\2\0\1\14\2\0\15\14\13\0\1\25\15\0\4\16"+
+    "\1\26\30\16\1\27\24\16\4\0\1\30\44\0\1\31"+
+    "\5\0\1\32\25\0\1\33\5\0\4\16\1\34\34\16"+
+    "\1\35\20\16\4\0\1\36\40\0\1\37\33\0\1\40"+
+    "\33\0\1\41\6\0\10\16\1\0\20\16\30\0\1\42"+
+    "\16\0\1\43\33\0\1\44\36\0\1\45\26\0\1\46"+
+    "\27\0\1\47\4\0";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[725];
+    int [] result = new int[775];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -214,11 +215,11 @@ class CSPDrogonLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\4\0\1\11\12\1\2\0\2\11\1\0\1\11\5\0"+
-    "\2\11\2\0\1\11\3\0\1\11\1\0\1\11";
+    "\3\0\1\1\1\11\12\1\2\0\2\11\1\0\1\11"+
+    "\7\0\2\11\2\0\1\11\3\0\1\11\1\0\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[37];
+    int [] result = new int[39];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -540,27 +541,27 @@ class CSPDrogonLexer implements FlexLexer {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { yybegin(YYINITIAL);return TokenType.BAD_CHARACTER;
+            { return CSP_COMMENT_CONTENT;
             }
           // fall through
           case 14: break;
           case 2:
-            { return TokenType.WHITE_SPACE;
+            { yybegin(YYINITIAL);return TokenType.BAD_CHARACTER;
             }
           // fall through
           case 15: break;
           case 3:
-            { return CSPDrogonTypes.FILE_NAME;
+            { return TokenType.WHITE_SPACE;
             }
           // fall through
           case 16: break;
           case 4:
-            { return CSPDrogonTypes.PARAM_VARIABLE_NAME;
+            { return CSPDrogonTypes.FILE_NAME;
             }
           // fall through
           case 17: break;
           case 5:
-            { return CSP_COMMENT_CONTENT;
+            { return CSPDrogonTypes.PARAM_VARIABLE_NAME;
             }
           // fall through
           case 18: break;

@@ -19,7 +19,7 @@ import static com.asdhammu.cspdrogon.language.CSPDrogonParserDefinition.*;
 RLF=\R
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 PARAM_NAME=[a-zA-Z_][a-zA-Z0-9_]*
-
+COMMENT_CONTENT = ([^-] | [-][^-] | [-][-][^>])*
 %state IN_DIRECTIVE
 %state IN_PARAMETER
 %state IN_COMMENT
@@ -35,7 +35,7 @@ PARAM_NAME=[a-zA-Z_][a-zA-Z0-9_]*
 }
 
 <IN_COMMENT>{
-    {PARAM_NAME}                {return CSP_COMMENT_CONTENT;}
+    {COMMENT_CONTENT}                {return CSP_COMMENT_CONTENT;}
     "-->"                       {yybegin(YYINITIAL);return CSP_COMMENT_END;}
     {WHITE_SPACE}              { return TokenType.WHITE_SPACE; }
 }
