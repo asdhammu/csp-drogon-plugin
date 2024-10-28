@@ -29,6 +29,12 @@ public class CSPDrogonCspDirectiveImpl extends ASTWrapperPsiElement implements C
 
   @Override
   @Nullable
+  public CSPDrogonCplusplusData getCplusplusData() {
+    return findChildByClass(CSPDrogonCplusplusData.class);
+  }
+
+  @Override
+  @Nullable
   public CSPDrogonLayoutDirective getLayoutDirective() {
     return findChildByClass(CSPDrogonLayoutDirective.class);
   }

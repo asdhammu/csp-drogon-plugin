@@ -8,6 +8,8 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
 
+import static com.asdhammu.cspdrogon.language.CSPDrogonParserDefinition.*;
+
 public class CSPDrogonHighlighter extends SyntaxHighlighterBase {
 
     public static final TextAttributesKey LAYOUT_DIRECTIVE_START =
@@ -28,6 +30,23 @@ public class CSPDrogonHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey PARAM_VARIABLE_NAME =
             TextAttributesKey.createTextAttributesKey(CSPDrogonTypes.PARAM_VARIABLE_NAME.toString(), DefaultLanguageHighlighterColors.IDENTIFIER);
 
+    public static final TextAttributesKey COMMENT =
+            TextAttributesKey.createTextAttributesKey(CSP_COMMENT_START.toString(), DefaultLanguageHighlighterColors.BLOCK_COMMENT);
+
+    public static final TextAttributesKey XML_START_TAG =
+            TextAttributesKey.createTextAttributesKey(CSPDrogonTypes.XML_START_TAG_START.toString(), DefaultLanguageHighlighterColors.KEYWORD);
+    public static final TextAttributesKey XML_NAME =
+            TextAttributesKey.createTextAttributesKey(CSPDrogonTypes.XML_NAME.toString(), DefaultLanguageHighlighterColors.KEYWORD);
+
+    public static final TextAttributesKey SEMICOLON_NAME =
+            TextAttributesKey.createTextAttributesKey(CSPDrogonTypes.SEMICOLON.toString(), DefaultLanguageHighlighterColors.SEMICOLON);
+
+    public static final TextAttributesKey CPLUS_VARIABLE_Name =
+            TextAttributesKey.createTextAttributesKey(CSPDrogonTypes.CPLUS_VARIABLE_NAME.toString(), DefaultLanguageHighlighterColors.LOCAL_VARIABLE);
+
+    public static final TextAttributesKey CPLUS_VIEW_DIRECTIVE =
+            TextAttributesKey.createTextAttributesKey(CSPDrogonTypes.CPLUS_VIEW_START.toString(), DefaultLanguageHighlighterColors.FUNCTION_DECLARATION);
+
     private static final TextAttributesKey[] LAYOUT_DIRECTIVE_START_KEYS = new TextAttributesKey[]{LAYOUT_DIRECTIVE_START};
     private static final TextAttributesKey[] VIEW_DIRECTIVE_START_KEYS = new TextAttributesKey[]{VIEW_DIRECTIVE_START};
     private static final TextAttributesKey[] DIRECTIVE_END_KEYS = new TextAttributesKey[]{DIRECTIVE_END};
@@ -35,6 +54,14 @@ public class CSPDrogonHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] PARAM_START_KEYS = new TextAttributesKey[]{PARAM_START};
     private static final TextAttributesKey[] PARAM_END_KEYS = new TextAttributesKey[]{PARAM_END};
     private static final TextAttributesKey[] PARAM_VARIABLE_NAME_KEYS = new TextAttributesKey[]{PARAM_VARIABLE_NAME};
+    private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT};
+    private static final TextAttributesKey[] XML_START_TAG_KEYS = new TextAttributesKey[]{XML_START_TAG};
+    private static final TextAttributesKey[] XML_NAME_KEYS = new TextAttributesKey[]{XML_NAME};
+
+    private static final TextAttributesKey[] SEMICOLON_NAME_KEYS = new TextAttributesKey[]{SEMICOLON_NAME};
+    private static final TextAttributesKey[] CPLUS_VARIABLE_NAME_KEYS = new TextAttributesKey[]{CPLUS_VARIABLE_Name};
+
+    private static final TextAttributesKey[] CPLUS_VIEW_DIRECTIVE_KEYS = new TextAttributesKey[]{CPLUS_VIEW_DIRECTIVE};
 
     @Override
     public @NotNull Lexer getHighlightingLexer() {
@@ -68,6 +95,31 @@ public class CSPDrogonHighlighter extends SyntaxHighlighterBase {
 
         if (tokenType.equals(CSPDrogonTypes.FILE_NAME)) {
             return FILE_NAME_KEYS;
+        }
+
+        if (tokenType.equals(CSP_COMMENT_START) || tokenType.equals(CSP_COMMENT_CONTENT) || tokenType.equals(CSP_COMMENT_END)) {
+            return COMMENT_KEYS;
+        }
+
+        if (tokenType.equals(CSPDrogonTypes.XML_START_TAG_START) || tokenType.equals(CSPDrogonTypes.XML_END_TAG_START)
+                || tokenType.equals(CSPDrogonTypes.XML_TAG_END)) {
+            return XML_START_TAG_KEYS;
+        }
+
+        if (tokenType.equals(CSPDrogonTypes.XML_NAME)) {
+            return XML_NAME_KEYS;
+        }
+
+        if (tokenType.equals(CSPDrogonTypes.SEMICOLON)) {
+            return SEMICOLON_NAME_KEYS;
+        }
+
+        if (tokenType.equals(CSPDrogonTypes.CPLUS_VARIABLE_NAME)) {
+            return CPLUS_VARIABLE_NAME_KEYS;
+        }
+
+        if (tokenType.equals(CSPDrogonTypes.CPLUS_VIEW_START) || tokenType.equals(CSPDrogonTypes.CPLUS_VIEW_END)) {
+            return CPLUS_VIEW_DIRECTIVE_KEYS;
         }
 
         return TextAttributesKey.EMPTY_ARRAY;

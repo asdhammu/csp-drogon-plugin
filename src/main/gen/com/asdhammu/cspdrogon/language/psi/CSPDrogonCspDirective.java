@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface CSPDrogonCspDirective extends PsiElement {
 
   @Nullable
+  CSPDrogonCplusplusData getCplusplusData();
+
+  @Nullable
   CSPDrogonLayoutDirective getLayoutDirective();
 
   @Nullable

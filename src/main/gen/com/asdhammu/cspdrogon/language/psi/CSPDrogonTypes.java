@@ -8,6 +8,7 @@ import com.asdhammu.cspdrogon.language.psi.impl.*;
 
 public interface CSPDrogonTypes {
 
+  IElementType CPLUSPLUS_DATA = new CSPDrogonElementType("CPLUSPLUS_DATA");
   IElementType CSP_DIRECTIVE = new CSPDrogonElementType("CSP_DIRECTIVE");
   IElementType EMPTY_ELEMENT = new CSPDrogonElementType("EMPTY_ELEMENT");
   IElementType FILE_REFERENCE = new CSPDrogonElementType("FILE_REFERENCE");
@@ -17,13 +18,18 @@ public interface CSPDrogonTypes {
   IElementType START_TAG_ELEMENT = new CSPDrogonElementType("START_TAG_ELEMENT");
   IElementType VIEW_DIRECTIVE = new CSPDrogonElementType("VIEW_DIRECTIVE");
 
+  IElementType CPLUS_VARIABLE_NAME = new CSPDrogonTokenType("CPLUS_VARIABLE_NAME");
+  IElementType CPLUS_VIEW_END = new CSPDrogonTokenType("CPLUS_VIEW_END");
+  IElementType CPLUS_VIEW_START = new CSPDrogonTokenType("CPLUS_VIEW_START");
   IElementType CSP_EXT = new CSPDrogonTokenType("CSP_EXT");
   IElementType DIRECTIVE_END = new CSPDrogonTokenType("DIRECTIVE_END");
+  IElementType DOLLARSIGN = new CSPDrogonTokenType("DOLLARSIGN");
   IElementType FILE_NAME = new CSPDrogonTokenType("FILE_NAME");
   IElementType LAYOUT_START = new CSPDrogonTokenType("LAYOUT_START");
   IElementType PARAM_END = new CSPDrogonTokenType("PARAM_END");
   IElementType PARAM_START = new CSPDrogonTokenType("PARAM_START");
   IElementType PARAM_VARIABLE_NAME = new CSPDrogonTokenType("PARAM_VARIABLE_NAME");
+  IElementType SEMICOLON = new CSPDrogonTokenType("SEMICOLON");
   IElementType VIEW_START = new CSPDrogonTokenType("VIEW_START");
   IElementType WHITE_SPACE = new CSPDrogonTokenType("WHITE_SPACE");
   IElementType XML_ATTRIBUTE_VALUE_END_DELIMITER = new CSPDrogonTokenType("XML_ATTRIBUTE_VALUE_END_DELIMITER");
@@ -43,7 +49,10 @@ public interface CSPDrogonTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == CSP_DIRECTIVE) {
+      if (type == CPLUSPLUS_DATA) {
+        return new CSPDrogonCplusplusDataImpl(node);
+      }
+      else if (type == CSP_DIRECTIVE) {
         return new CSPDrogonCspDirectiveImpl(node);
       }
       else if (type == EMPTY_ELEMENT) {

@@ -143,7 +143,19 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // view_directive | layout_directive | param_directive
+  // CPLUS_VIEW_START DOLLARSIGN CPLUS_VARIABLE_NAME SEMICOLON CPLUS_VIEW_END
+  public static boolean cplusplus_data(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "cplusplus_data")) return false;
+    if (!nextTokenIs(b, CPLUS_VIEW_START)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, CPLUS_VIEW_START, DOLLARSIGN, CPLUS_VARIABLE_NAME, SEMICOLON, CPLUS_VIEW_END);
+    exit_section_(b, m, CPLUSPLUS_DATA, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // view_directive | layout_directive | param_directive | cplusplus_data
   public static boolean csp_directive(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "csp_directive")) return false;
     boolean r;
@@ -151,6 +163,7 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
     r = view_directive(b, l + 1);
     if (!r) r = layout_directive(b, l + 1);
     if (!r) r = param_directive(b, l + 1);
+    if (!r) r = cplusplus_data(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }

@@ -7,6 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public class CSPDrogonVisitor extends PsiElementVisitor {
 
+  public void visitCplusplusData(@NotNull CSPDrogonCplusplusData o) {
+    visitPsiElement(o);
+  }
+
   public void visitCspDirective(@NotNull CSPDrogonCspDirective o) {
     visitPsiElement(o);
   }

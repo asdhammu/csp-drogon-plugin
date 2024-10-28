@@ -47,6 +47,7 @@ PUBLIC= (P|p)(U|u)(B|b)(L|l)(I|i)(C|c)
 %state ATTRIBUTE_VALUE_SQ
 %state PROCESSING_INSTRUCTION
 %state TAG_CHARACTERS
+%state IN_CPLUS_DATA
 
 %%
 
@@ -57,9 +58,17 @@ PUBLIC= (P|p)(U|u)(B|b)(L|l)(I|i)(C|c)
   "<!--"                          { yybegin(IN_COMMENT);return CSP_COMMENT_START;}
   "<" {TAG_NAME}                  { yybegin(START_TAG_NAME); yypushback(yylength()); }
   "</" {TAG_NAME}                 { yybegin(END_TAG_NAME); yypushback(yylength()); }
-  //"</"                            { return CSPDrogonTypes.XML_END_TAG_START; }
+  "<%c++"                         {yybegin(IN_CPLUS_DATA); return CSPDrogonTypes.CPLUS_VIEW_START;}
   \\\$                           { return CSPDrogonTypes.XML_DATA_CHARACTERS;}
   {WHITE_SPACE}                   { return TokenType.WHITE_SPACE; }
+}
+
+<IN_CPLUS_DATA> {
+    "$$<<"                        {return CSPDrogonTypes.DOLLARSIGN;}
+    {PARAM_NAME}                  {return CSPDrogonTypes.CPLUS_VARIABLE_NAME;}
+    ";"                           {return CSPDrogonTypes.SEMICOLON;}
+    "%>"                          {yybegin(YYINITIAL); return CSPDrogonTypes.CPLUS_VIEW_END;}
+    {WHITE_SPACE}                 {return TokenType.WHITE_SPACE;}
 }
 
 <START_TAG_NAME, TAG_CHARACTERS> "<" { return CSPDrogonTypes.XML_START_TAG_START; }
