@@ -20,8 +20,8 @@ private item_ ::= (html_element)
 
 html_element ::= empty_element | start_tag_element | csp_directive
 
-private start_tag_element ::= startTag content endTag
-private empty_element ::= startEmptyTag XML_EMPTY_ELEMENT_END
+start_tag_element ::= startTag content endTag
+empty_element ::= startEmptyTag XML_EMPTY_ELEMENT_END
 
 private startTag ::= XML_START_TAG_START XML_NAME attribute* XML_TAG_END
 private endTag ::= XML_END_TAG_START XML_NAME XML_TAG_END

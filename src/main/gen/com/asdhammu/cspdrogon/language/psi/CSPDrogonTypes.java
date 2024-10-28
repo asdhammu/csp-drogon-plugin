@@ -9,10 +9,12 @@ import com.asdhammu.cspdrogon.language.psi.impl.*;
 public interface CSPDrogonTypes {
 
   IElementType CSP_DIRECTIVE = new CSPDrogonElementType("CSP_DIRECTIVE");
+  IElementType EMPTY_ELEMENT = new CSPDrogonElementType("EMPTY_ELEMENT");
   IElementType FILE_REFERENCE = new CSPDrogonElementType("FILE_REFERENCE");
   IElementType HTML_ELEMENT = new CSPDrogonElementType("HTML_ELEMENT");
   IElementType LAYOUT_DIRECTIVE = new CSPDrogonElementType("LAYOUT_DIRECTIVE");
   IElementType PARAM_DIRECTIVE = new CSPDrogonElementType("PARAM_DIRECTIVE");
+  IElementType START_TAG_ELEMENT = new CSPDrogonElementType("START_TAG_ELEMENT");
   IElementType VIEW_DIRECTIVE = new CSPDrogonElementType("VIEW_DIRECTIVE");
 
   IElementType CSP_EXT = new CSPDrogonTokenType("CSP_EXT");
@@ -44,6 +46,9 @@ public interface CSPDrogonTypes {
       if (type == CSP_DIRECTIVE) {
         return new CSPDrogonCspDirectiveImpl(node);
       }
+      else if (type == EMPTY_ELEMENT) {
+        return new CSPDrogonEmptyElementImpl(node);
+      }
       else if (type == FILE_REFERENCE) {
         return new CSPDrogonFileReferenceImpl(node);
       }
@@ -55,6 +60,9 @@ public interface CSPDrogonTypes {
       }
       else if (type == PARAM_DIRECTIVE) {
         return new CSPDrogonParamDirectiveImpl(node);
+      }
+      else if (type == START_TAG_ELEMENT) {
+        return new CSPDrogonStartTagElementImpl(node);
       }
       else if (type == VIEW_DIRECTIVE) {
         return new CSPDrogonViewDirectiveImpl(node);

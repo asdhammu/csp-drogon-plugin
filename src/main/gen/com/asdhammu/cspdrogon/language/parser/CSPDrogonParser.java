@@ -195,14 +195,14 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // startEmptyTag XML_EMPTY_ELEMENT_END
-  static boolean empty_element(PsiBuilder b, int l) {
+  public static boolean empty_element(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "empty_element")) return false;
     if (!nextTokenIs(b, XML_START_TAG_START)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = startEmptyTag(b, l + 1);
     r = r && consumeToken(b, XML_EMPTY_ELEMENT_END);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, EMPTY_ELEMENT, r);
     return r;
   }
 
@@ -413,7 +413,7 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // startTag content endTag
-  static boolean start_tag_element(PsiBuilder b, int l) {
+  public static boolean start_tag_element(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "start_tag_element")) return false;
     if (!nextTokenIs(b, XML_START_TAG_START)) return false;
     boolean r;
@@ -421,7 +421,7 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
     r = startTag(b, l + 1);
     r = r && content(b, l + 1);
     r = r && endTag(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, START_TAG_ELEMENT, r);
     return r;
   }
 

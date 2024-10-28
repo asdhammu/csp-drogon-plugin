@@ -10,6 +10,18 @@ import org.jetbrains.annotations.NotNull;
 public class CSPDrogonAnnotator implements Annotator {
     @Override
     public void annotate(@NotNull PsiElement element, @NotNull AnnotationHolder holder) {
+
+        if (element instanceof CSPDrogonStartTagElement) {
+            String startTagName = element.getFirstChild().getNextSibling().getText();
+            String endTagName = element.getLastChild().getPrevSibling().getText();
+            if( startTagName != null && endTagName != null && !startTagName.equals(endTagName)) {
+                holder.newAnnotation(HighlightSeverity.ERROR, String.format("Tag %s not closed", startTagName))
+                        .range(element.getTextRange())
+                        .create();
+            }
+        }
+
+
         if (element instanceof CSPDrogonViewDirective || element instanceof CSPDrogonLayoutDirective) {
             if (!hasDirectiveEnd(element)) {
                 holder.newAnnotation(HighlightSeverity.ERROR, "Unclosed directive")

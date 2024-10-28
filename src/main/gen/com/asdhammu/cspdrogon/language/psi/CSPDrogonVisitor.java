@@ -11,6 +11,10 @@ public class CSPDrogonVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitEmptyElement(@NotNull CSPDrogonEmptyElement o) {
+    visitPsiElement(o);
+  }
+
   public void visitFileReference(@NotNull CSPDrogonFileReference o) {
     visitPsiElement(o);
   }
@@ -24,6 +28,10 @@ public class CSPDrogonVisitor extends PsiElementVisitor {
   }
 
   public void visitParamDirective(@NotNull CSPDrogonParamDirective o) {
+    visitPsiElement(o);
+  }
+
+  public void visitStartTagElement(@NotNull CSPDrogonStartTagElement o) {
     visitPsiElement(o);
   }
 

@@ -10,7 +10,10 @@ public interface CSPDrogonHtmlElement extends PsiElement {
   @Nullable
   CSPDrogonCspDirective getCspDirective();
 
-  @NotNull
-  List<CSPDrogonHtmlElement> getHtmlElementList();
+  @Nullable
+  CSPDrogonEmptyElement getEmptyElement();
+
+  @Nullable
+  CSPDrogonStartTagElement getStartTagElement();
 
 }
