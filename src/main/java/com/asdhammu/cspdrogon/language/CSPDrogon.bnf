@@ -14,13 +14,32 @@
     psiImplUtilClass="com.asdhammu.cspdrogon.language.psi.impl.CSPDrogonPsiImplUtil"
 }
 
-CSPDirectiveFile ::= item_*
+CSPDirectiveFile ::= (item_)*
 
-private item_ ::= (csp_directive)
+private item_ ::= (html_element)
 
-csp_directive ::= (view_directive | layout_directive | param_directive ) {
+html_element ::= empty_element | start_tag_element | csp_directive
+
+private start_tag_element ::= startTag content endTag
+private empty_element ::= startEmptyTag XML_EMPTY_ELEMENT_END
+
+private startTag ::= XML_START_TAG_START XML_NAME attribute* XML_TAG_END
+private endTag ::= XML_END_TAG_START XML_NAME XML_TAG_END
+private startEmptyTag ::= XML_START_TAG_START XML_NAME attribute*
+
+private attribute ::= XML_NAME XML_EQ attributeValue
+private attributeValue ::= XML_ATTRIBUTE_VALUE_START_DELIMITER XML_ATTRIBUTE_VALUE_TOKEN* XML_ATTRIBUTE_VALUE_END_DELIMITER | XML_ATTRIBUTE_VALUE_TOKEN
+
+private content ::= ( html_element
+| XML_DATA_CHARACTERS
+| XML_CHAR_ENTITY_REF
+| XML_TAG_CHARACTERS
+| XML_ENTITY_REF_TOKEN
+| WHITE_SPACE
+)*
+
+csp_directive ::= (view_directive | layout_directive | param_directive) {
 pin=1
-recoverWhile=directive_recover
 }
 
 view_directive ::= VIEW_START directive_content {
@@ -35,7 +54,6 @@ methods=[getDirectiveType]
 
 private directive_content ::= WHITE_SPACE* file_reference WHITE_SPACE* DIRECTIVE_END{
 pin=2
-recoverWhile=directive_content_recover
 }
 
 file_reference ::= FILE_NAME CSP_EXT {
@@ -45,13 +63,8 @@ recoverWhile=file_reference_recover
 
 private file_reference_recover ::= !(DIRECTIVE_END | WHITE_SPACE)
 
-private directive_content_recover ::= !(VIEW_START | LAYOUT_START | PARAM_START | DIRECTIVE_END | '<')
-
 param_directive ::= PARAM_START param_directive_content{
     pin = 1
-    /*mixin="com.asdhammu.cspdrogon.language.psi.impl.CSPDrogonNamedElementImpl"
-    implements="com.asdhammu.cspdrogon.language.psi.CSPDrogonNamedElement"
-    methods=[getKey getValue getName setName getNameIdentifier getPresentation]*/
 }
 
 private param_directive_content ::= WHITE_SPACE* PARAM_VARIABLE_NAME WHITE_SPACE* PARAM_END{
@@ -60,5 +73,3 @@ recoverWhile=param_content_recover
 }
 
 private param_content_recover ::= !(PARAM_START | VIEW_START | LAYOUT_START | PARAM_END | '<')
-
-private directive_recover ::= !(VIEW_START | LAYOUT_START | PARAM_START | '<')

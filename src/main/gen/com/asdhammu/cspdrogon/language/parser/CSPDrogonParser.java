@@ -36,15 +36,110 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // item_*
+  // (item_)*
   static boolean CSPDirectiveFile(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "CSPDirectiveFile")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!item_(b, l + 1)) break;
+      if (!CSPDirectiveFile_0(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "CSPDirectiveFile", c)) break;
     }
     return true;
+  }
+
+  // (item_)
+  private static boolean CSPDirectiveFile_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "CSPDirectiveFile_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = item_(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // XML_NAME XML_EQ attributeValue
+  static boolean attribute(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "attribute")) return false;
+    if (!nextTokenIs(b, XML_NAME)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, XML_NAME, XML_EQ);
+    r = r && attributeValue(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // XML_ATTRIBUTE_VALUE_START_DELIMITER XML_ATTRIBUTE_VALUE_TOKEN* XML_ATTRIBUTE_VALUE_END_DELIMITER | XML_ATTRIBUTE_VALUE_TOKEN
+  static boolean attributeValue(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "attributeValue")) return false;
+    if (!nextTokenIs(b, "", XML_ATTRIBUTE_VALUE_START_DELIMITER, XML_ATTRIBUTE_VALUE_TOKEN)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = attributeValue_0(b, l + 1);
+    if (!r) r = consumeToken(b, XML_ATTRIBUTE_VALUE_TOKEN);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // XML_ATTRIBUTE_VALUE_START_DELIMITER XML_ATTRIBUTE_VALUE_TOKEN* XML_ATTRIBUTE_VALUE_END_DELIMITER
+  private static boolean attributeValue_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "attributeValue_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, XML_ATTRIBUTE_VALUE_START_DELIMITER);
+    r = r && attributeValue_0_1(b, l + 1);
+    r = r && consumeToken(b, XML_ATTRIBUTE_VALUE_END_DELIMITER);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // XML_ATTRIBUTE_VALUE_TOKEN*
+  private static boolean attributeValue_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "attributeValue_0_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!consumeToken(b, XML_ATTRIBUTE_VALUE_TOKEN)) break;
+      if (!empty_element_parsed_guard_(b, "attributeValue_0_1", c)) break;
+    }
+    return true;
+  }
+
+  /* ********************************************************** */
+  // ( html_element
+  // | XML_DATA_CHARACTERS
+  // | XML_CHAR_ENTITY_REF
+  // | XML_TAG_CHARACTERS
+  // | XML_ENTITY_REF_TOKEN
+  // | WHITE_SPACE
+  // )*
+  static boolean content(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "content")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!content_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "content", c)) break;
+    }
+    return true;
+  }
+
+  // html_element
+  // | XML_DATA_CHARACTERS
+  // | XML_CHAR_ENTITY_REF
+  // | XML_TAG_CHARACTERS
+  // | XML_ENTITY_REF_TOKEN
+  // | WHITE_SPACE
+  private static boolean content_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "content_0")) return false;
+    boolean r;
+    r = html_element(b, l + 1);
+    if (!r) r = consumeToken(b, XML_DATA_CHARACTERS);
+    if (!r) r = consumeToken(b, XML_CHAR_ENTITY_REF);
+    if (!r) r = consumeToken(b, XML_TAG_CHARACTERS);
+    if (!r) r = consumeToken(b, XML_ENTITY_REF_TOKEN);
+    if (!r) r = consumeToken(b, WHITE_SPACE);
+    return r;
   }
 
   /* ********************************************************** */
@@ -56,7 +151,7 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
     r = view_directive(b, l + 1);
     if (!r) r = layout_directive(b, l + 1);
     if (!r) r = param_directive(b, l + 1);
-    exit_section_(b, l, m, r, false, CSPDrogonParser::directive_recover);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -64,6 +159,7 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
   // WHITE_SPACE* file_reference WHITE_SPACE* DIRECTIVE_END
   static boolean directive_content(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "directive_content")) return false;
+    if (!nextTokenIs(b, "", FILE_NAME, WHITE_SPACE)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_);
     r = directive_content_0(b, l + 1);
@@ -71,7 +167,7 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
     p = r; // pin = 2
     r = r && report_error_(b, directive_content_2(b, l + 1));
     r = p && consumeToken(b, DIRECTIVE_END) && r;
-    exit_section_(b, l, m, r, p, CSPDrogonParser::directive_content_recover);
+    exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
@@ -98,47 +194,27 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !(VIEW_START | LAYOUT_START | PARAM_START | DIRECTIVE_END | '<')
-  static boolean directive_content_recover(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "directive_content_recover")) return false;
+  // startEmptyTag XML_EMPTY_ELEMENT_END
+  static boolean empty_element(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "empty_element")) return false;
+    if (!nextTokenIs(b, XML_START_TAG_START)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NOT_);
-    r = !directive_content_recover_0(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // VIEW_START | LAYOUT_START | PARAM_START | DIRECTIVE_END | '<'
-  private static boolean directive_content_recover_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "directive_content_recover_0")) return false;
-    boolean r;
-    r = consumeToken(b, VIEW_START);
-    if (!r) r = consumeToken(b, LAYOUT_START);
-    if (!r) r = consumeToken(b, PARAM_START);
-    if (!r) r = consumeToken(b, DIRECTIVE_END);
-    if (!r) r = consumeToken(b, "<");
+    Marker m = enter_section_(b);
+    r = startEmptyTag(b, l + 1);
+    r = r && consumeToken(b, XML_EMPTY_ELEMENT_END);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
-  // !(VIEW_START | LAYOUT_START | PARAM_START | '<')
-  static boolean directive_recover(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "directive_recover")) return false;
+  // XML_END_TAG_START XML_NAME XML_TAG_END
+  static boolean endTag(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "endTag")) return false;
+    if (!nextTokenIs(b, XML_END_TAG_START)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NOT_);
-    r = !directive_recover_0(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // VIEW_START | LAYOUT_START | PARAM_START | '<'
-  private static boolean directive_recover_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "directive_recover_0")) return false;
-    boolean r;
-    r = consumeToken(b, VIEW_START);
-    if (!r) r = consumeToken(b, LAYOUT_START);
-    if (!r) r = consumeToken(b, PARAM_START);
-    if (!r) r = consumeToken(b, "<");
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, XML_END_TAG_START, XML_NAME, XML_TAG_END);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -175,12 +251,25 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (csp_directive)
+  // empty_element | start_tag_element | csp_directive
+  public static boolean html_element(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "html_element")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, HTML_ELEMENT, "<html element>");
+    r = empty_element(b, l + 1);
+    if (!r) r = start_tag_element(b, l + 1);
+    if (!r) r = csp_directive(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // (html_element)
   static boolean item_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "item_")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = csp_directive(b, l + 1);
+    r = html_element(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -271,6 +360,69 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
       if (!empty_element_parsed_guard_(b, "param_directive_content_2", c)) break;
     }
     return true;
+  }
+
+  /* ********************************************************** */
+  // XML_START_TAG_START XML_NAME attribute*
+  static boolean startEmptyTag(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "startEmptyTag")) return false;
+    if (!nextTokenIs(b, XML_START_TAG_START)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, XML_START_TAG_START, XML_NAME);
+    r = r && startEmptyTag_2(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // attribute*
+  private static boolean startEmptyTag_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "startEmptyTag_2")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!attribute(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "startEmptyTag_2", c)) break;
+    }
+    return true;
+  }
+
+  /* ********************************************************** */
+  // XML_START_TAG_START XML_NAME attribute* XML_TAG_END
+  static boolean startTag(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "startTag")) return false;
+    if (!nextTokenIs(b, XML_START_TAG_START)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, XML_START_TAG_START, XML_NAME);
+    r = r && startTag_2(b, l + 1);
+    r = r && consumeToken(b, XML_TAG_END);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // attribute*
+  private static boolean startTag_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "startTag_2")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!attribute(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "startTag_2", c)) break;
+    }
+    return true;
+  }
+
+  /* ********************************************************** */
+  // startTag content endTag
+  static boolean start_tag_element(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "start_tag_element")) return false;
+    if (!nextTokenIs(b, XML_START_TAG_START)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = startTag(b, l + 1);
+    r = r && content(b, l + 1);
+    r = r && endTag(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */
