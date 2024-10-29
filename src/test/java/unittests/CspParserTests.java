@@ -10,7 +10,7 @@ public class CspParserTests extends ParsingTestCase {
     }
 
 
-    public void testParsingTestData() {
+    public void testDrogonDirectives() {
         doTest(true);
     }
 

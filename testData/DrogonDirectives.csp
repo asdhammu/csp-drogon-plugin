@@ -1,0 +1,5 @@
+<%view Header.csp %>
+<%layout Test.csp %>
+[[ test_variable ]]
+<%c++ $$<<test; %>
+[[ ]]

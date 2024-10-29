@@ -18,6 +18,7 @@ import static com.asdhammu.cspdrogon.language.CSPDrogonParserDefinition.*;
 %eof}
 RLF=\R
 WHITE_SPACE=[ \t\n\x0B\f\r]+
+
 PARAM_NAME=[a-zA-Z_][a-zA-Z0-9_]*
 COMMENT_CONTENT = ([^-] | [-][^-] | [-][-][^>])*
 

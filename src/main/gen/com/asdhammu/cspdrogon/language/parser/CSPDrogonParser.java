@@ -147,11 +147,12 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
   public static boolean cplusplus_data(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "cplusplus_data")) return false;
     if (!nextTokenIs(b, CPLUS_VIEW_START)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, CPLUS_VIEW_START, DOLLARSIGN, CPLUS_VARIABLE_NAME, SEMICOLON, CPLUS_VIEW_END);
-    exit_section_(b, m, CPLUSPLUS_DATA, r);
-    return r;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, CPLUSPLUS_DATA, null);
+    r = consumeTokens(b, 1, CPLUS_VIEW_START, DOLLARSIGN, CPLUS_VARIABLE_NAME, SEMICOLON, CPLUS_VIEW_END);
+    p = r; // pin = 1
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   /* ********************************************************** */
@@ -339,29 +340,6 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !(PARAM_START | VIEW_START | LAYOUT_START | PARAM_END | '<')
-  static boolean param_content_recover(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "param_content_recover")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NOT_);
-    r = !param_content_recover_0(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // PARAM_START | VIEW_START | LAYOUT_START | PARAM_END | '<'
-  private static boolean param_content_recover_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "param_content_recover_0")) return false;
-    boolean r;
-    r = consumeToken(b, PARAM_START);
-    if (!r) r = consumeToken(b, VIEW_START);
-    if (!r) r = consumeToken(b, LAYOUT_START);
-    if (!r) r = consumeToken(b, PARAM_END);
-    if (!r) r = consumeToken(b, "<");
-    return r;
-  }
-
-  /* ********************************************************** */
   // PARAM_START param_directive_content
   public static boolean param_directive(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "param_directive")) return false;
@@ -376,17 +354,17 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // WHITE_SPACE* PARAM_VARIABLE_NAME WHITE_SPACE* PARAM_END
+  // WHITE_SPACE* PARAM_VARIABLE_NAME* WHITE_SPACE* PARAM_END
   static boolean param_directive_content(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "param_directive_content")) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_);
     r = param_directive_content_0(b, l + 1);
-    r = r && consumeToken(b, PARAM_VARIABLE_NAME);
+    r = r && param_directive_content_1(b, l + 1);
     p = r; // pin = 2
     r = r && report_error_(b, param_directive_content_2(b, l + 1));
     r = p && consumeToken(b, PARAM_END) && r;
-    exit_section_(b, l, m, r, p, CSPDrogonParser::param_content_recover);
+    exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
@@ -397,6 +375,17 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
       int c = current_position_(b);
       if (!consumeToken(b, WHITE_SPACE)) break;
       if (!empty_element_parsed_guard_(b, "param_directive_content_0", c)) break;
+    }
+    return true;
+  }
+
+  // PARAM_VARIABLE_NAME*
+  private static boolean param_directive_content_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "param_directive_content_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!consumeToken(b, PARAM_VARIABLE_NAME)) break;
+      if (!empty_element_parsed_guard_(b, "param_directive_content_1", c)) break;
     }
     return true;
   }

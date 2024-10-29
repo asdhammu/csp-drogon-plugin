@@ -46,7 +46,9 @@ csp_directive ::= (view_directive | layout_directive | param_directive | cpluspl
 pin=1
 }
 
-cplusplus_data ::= CPLUS_VIEW_START DOLLARSIGN CPLUS_VARIABLE_NAME SEMICOLON CPLUS_VIEW_END
+cplusplus_data ::= CPLUS_VIEW_START DOLLARSIGN CPLUS_VARIABLE_NAME SEMICOLON CPLUS_VIEW_END{
+pin=1
+}
 
 view_directive ::= VIEW_START directive_content {
 pin=1
@@ -73,9 +75,6 @@ param_directive ::= PARAM_START param_directive_content{
     pin = 1
 }
 
-private param_directive_content ::= WHITE_SPACE* PARAM_VARIABLE_NAME WHITE_SPACE* PARAM_END{
+private param_directive_content ::= WHITE_SPACE* PARAM_VARIABLE_NAME* WHITE_SPACE* PARAM_END{
 pin=2
-recoverWhile=param_content_recover
 }
-
-private param_content_recover ::= !(PARAM_START | VIEW_START | LAYOUT_START | PARAM_END | '<')
