@@ -8,7 +8,7 @@ import com.asdhammu.cspdrogon.language.psi.impl.*;
 
 public interface CSPDrogonTypes {
 
-  IElementType CPLUSPLUS_DATA = new CSPDrogonElementType("CPLUSPLUS_DATA");
+  IElementType CPP_DATA = new CSPDrogonElementType("CPP_DATA");
   IElementType CSP_DIRECTIVE = new CSPDrogonElementType("CSP_DIRECTIVE");
   IElementType DOCTYPE = new CSPDrogonElementType("DOCTYPE");
   IElementType DOCTYPE_CONTENT = new CSPDrogonElementType("DOCTYPE_CONTENT");
@@ -20,9 +20,9 @@ public interface CSPDrogonTypes {
   IElementType START_TAG_ELEMENT = new CSPDrogonElementType("START_TAG_ELEMENT");
   IElementType VIEW_DIRECTIVE = new CSPDrogonElementType("VIEW_DIRECTIVE");
 
-  IElementType CPLUS_VARIABLE_NAME = new CSPDrogonTokenType("CPLUS_VARIABLE_NAME");
-  IElementType CPLUS_VIEW_END = new CSPDrogonTokenType("CPLUS_VIEW_END");
-  IElementType CPLUS_VIEW_START = new CSPDrogonTokenType("CPLUS_VIEW_START");
+  IElementType CPP_VARIABLE_NAME = new CSPDrogonTokenType("CPP_VARIABLE_NAME");
+  IElementType CPP_VIEW_END = new CSPDrogonTokenType("CPP_VIEW_END");
+  IElementType CPP_VIEW_START = new CSPDrogonTokenType("CPP_VIEW_START");
   IElementType CSP_EXT = new CSPDrogonTokenType("CSP_EXT");
   IElementType DIRECTIVE_END = new CSPDrogonTokenType("DIRECTIVE_END");
   IElementType DOLLARSIGN = new CSPDrogonTokenType("DOLLARSIGN");
@@ -54,8 +54,8 @@ public interface CSPDrogonTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == CPLUSPLUS_DATA) {
-        return new CSPDrogonCplusplusDataImpl(node);
+      if (type == CPP_DATA) {
+        return new CSPDrogonCppDataImpl(node);
       }
       else if (type == CSP_DIRECTIVE) {
         return new CSPDrogonCspDirectiveImpl(node);

@@ -11,14 +11,14 @@ import static com.asdhammu.cspdrogon.language.psi.CSPDrogonTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.asdhammu.cspdrogon.language.psi.*;
 
-public class CSPDrogonCplusplusDataImpl extends ASTWrapperPsiElement implements CSPDrogonCplusplusData {
+public class CSPDrogonCppDataImpl extends ASTWrapperPsiElement implements CSPDrogonCppData {
 
-  public CSPDrogonCplusplusDataImpl(@NotNull ASTNode node) {
+  public CSPDrogonCppDataImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull CSPDrogonVisitor visitor) {
-    visitor.visitCplusplusData(this);
+    visitor.visitCppData(this);
   }
 
   @Override

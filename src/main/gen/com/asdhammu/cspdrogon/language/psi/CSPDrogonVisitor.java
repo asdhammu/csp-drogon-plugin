@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public class CSPDrogonVisitor extends PsiElementVisitor {
 
-  public void visitCplusplusData(@NotNull CSPDrogonCplusplusData o) {
+  public void visitCppData(@NotNull CSPDrogonCppData o) {
     visitPsiElement(o);
   }
 

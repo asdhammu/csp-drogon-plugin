@@ -143,20 +143,20 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CPLUS_VIEW_START DOLLARSIGN CPLUS_VARIABLE_NAME SEMICOLON CPLUS_VIEW_END
-  public static boolean cplusplus_data(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "cplusplus_data")) return false;
-    if (!nextTokenIs(b, CPLUS_VIEW_START)) return false;
+  // CPP_VIEW_START DOLLARSIGN CPP_VARIABLE_NAME SEMICOLON CPP_VIEW_END
+  public static boolean cpp_data(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "cpp_data")) return false;
+    if (!nextTokenIs(b, CPP_VIEW_START)) return false;
     boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, CPLUSPLUS_DATA, null);
-    r = consumeTokens(b, 1, CPLUS_VIEW_START, DOLLARSIGN, CPLUS_VARIABLE_NAME, SEMICOLON, CPLUS_VIEW_END);
+    Marker m = enter_section_(b, l, _NONE_, CPP_DATA, null);
+    r = consumeTokens(b, 1, CPP_VIEW_START, DOLLARSIGN, CPP_VARIABLE_NAME, SEMICOLON, CPP_VIEW_END);
     p = r; // pin = 1
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
   /* ********************************************************** */
-  // view_directive | layout_directive | param_directive | cplusplus_data
+  // view_directive | layout_directive | param_directive | cpp_data
   public static boolean csp_directive(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "csp_directive")) return false;
     boolean r;
@@ -164,7 +164,7 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
     r = view_directive(b, l + 1);
     if (!r) r = layout_directive(b, l + 1);
     if (!r) r = param_directive(b, l + 1);
-    if (!r) r = cplusplus_data(b, l + 1);
+    if (!r) r = cpp_data(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }

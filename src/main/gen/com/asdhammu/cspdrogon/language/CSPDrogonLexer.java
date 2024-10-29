@@ -32,7 +32,7 @@ class CSPDrogonLexer implements FlexLexer {
   public static final int ATTRIBUTE_VALUE_DQ = 18;
   public static final int ATTRIBUTE_VALUE_SQ = 20;
   public static final int TAG_CHARACTERS = 22;
-  public static final int IN_CPLUS_DATA = 24;
+  public static final int IN_CPP_DATA = 24;
   public static final int IN_DOCTYPE = 26;
 
   /**
@@ -941,7 +941,7 @@ class CSPDrogonLexer implements FlexLexer {
           // fall through
           case 61: break;
           case 21:
-            { return CSPDrogonTypes.CPLUS_VARIABLE_NAME;
+            { return CSPDrogonTypes.CPP_VARIABLE_NAME;
             }
           // fall through
           case 62: break;
@@ -981,7 +981,7 @@ class CSPDrogonLexer implements FlexLexer {
           // fall through
           case 69: break;
           case 29:
-            { yybegin(YYINITIAL); return CSPDrogonTypes.CPLUS_VIEW_END;
+            { yybegin(YYINITIAL); return CSPDrogonTypes.CPP_VIEW_END;
             }
           // fall through
           case 70: break;
@@ -1021,7 +1021,7 @@ class CSPDrogonLexer implements FlexLexer {
           // fall through
           case 77: break;
           case 37:
-            { yybegin(IN_CPLUS_DATA); return CSPDrogonTypes.CPLUS_VIEW_START;
+            { yybegin(IN_CPP_DATA); return CSPDrogonTypes.CPP_VIEW_START;
             }
           // fall through
           case 78: break;

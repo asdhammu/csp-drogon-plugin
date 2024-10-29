@@ -42,11 +42,11 @@ private content ::= ( html_element
 | WHITE_SPACE
 )*
 
-csp_directive ::= (view_directive | layout_directive | param_directive | cplusplus_data) {
+csp_directive ::= (view_directive | layout_directive | param_directive | cpp_data) {
 pin=1
 }
 
-cplusplus_data ::= CPLUS_VIEW_START DOLLARSIGN CPLUS_VARIABLE_NAME SEMICOLON CPLUS_VIEW_END{
+cpp_data ::= CPP_VIEW_START DOLLARSIGN CPP_VARIABLE_NAME SEMICOLON CPP_VIEW_END{
 pin=1
 }
 

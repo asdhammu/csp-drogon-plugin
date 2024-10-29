@@ -42,10 +42,10 @@ public class CSPDrogonHighlighter extends SyntaxHighlighterBase {
             TextAttributesKey.createTextAttributesKey(CSPDrogonTypes.SEMICOLON.toString(), DefaultLanguageHighlighterColors.SEMICOLON);
 
     public static final TextAttributesKey CPLUS_VARIABLE_Name =
-            TextAttributesKey.createTextAttributesKey(CSPDrogonTypes.CPLUS_VARIABLE_NAME.toString(), DefaultLanguageHighlighterColors.LOCAL_VARIABLE);
+            TextAttributesKey.createTextAttributesKey(CSPDrogonTypes.CPP_VARIABLE_NAME.toString(), DefaultLanguageHighlighterColors.LOCAL_VARIABLE);
 
     public static final TextAttributesKey CPLUS_VIEW_DIRECTIVE =
-            TextAttributesKey.createTextAttributesKey(CSPDrogonTypes.CPLUS_VIEW_START.toString(), DefaultLanguageHighlighterColors.FUNCTION_DECLARATION);
+            TextAttributesKey.createTextAttributesKey(CSPDrogonTypes.CPP_VIEW_START.toString(), DefaultLanguageHighlighterColors.FUNCTION_DECLARATION);
 
     private static final TextAttributesKey[] LAYOUT_DIRECTIVE_START_KEYS = new TextAttributesKey[]{LAYOUT_DIRECTIVE_START};
     private static final TextAttributesKey[] VIEW_DIRECTIVE_START_KEYS = new TextAttributesKey[]{VIEW_DIRECTIVE_START};
@@ -114,11 +114,11 @@ public class CSPDrogonHighlighter extends SyntaxHighlighterBase {
             return SEMICOLON_NAME_KEYS;
         }
 
-        if (tokenType.equals(CSPDrogonTypes.CPLUS_VARIABLE_NAME)) {
+        if (tokenType.equals(CSPDrogonTypes.CPP_VARIABLE_NAME)) {
             return CPLUS_VARIABLE_NAME_KEYS;
         }
 
-        if (tokenType.equals(CSPDrogonTypes.CPLUS_VIEW_START) || tokenType.equals(CSPDrogonTypes.CPLUS_VIEW_END)) {
+        if (tokenType.equals(CSPDrogonTypes.CPP_VIEW_START) || tokenType.equals(CSPDrogonTypes.CPP_VIEW_END)) {
             return CPLUS_VIEW_DIRECTIVE_KEYS;
         }
 

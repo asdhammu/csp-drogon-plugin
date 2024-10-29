@@ -46,7 +46,7 @@ PUBLIC= (P|p)(U|u)(B|b)(L|l)(I|i)(C|c)
 %state ATTRIBUTE_VALUE_DQ
 %state ATTRIBUTE_VALUE_SQ
 %state TAG_CHARACTERS
-%state IN_CPLUS_DATA
+%state IN_CPP_DATA
 %state IN_DOCTYPE
 %%
 
@@ -57,7 +57,7 @@ PUBLIC= (P|p)(U|u)(B|b)(L|l)(I|i)(C|c)
   "<!--"                          { yybegin(IN_COMMENT);return CSP_COMMENT_START;}
   "<" {TAG_NAME}                  { yybegin(START_TAG_NAME); yypushback(yylength()); }
   "</" {TAG_NAME}                 { yybegin(END_TAG_NAME); yypushback(yylength()); }
-  "<%c++"                         {yybegin(IN_CPLUS_DATA); return CSPDrogonTypes.CPLUS_VIEW_START;}
+  "<%c++"                         {yybegin(IN_CPP_DATA); return CSPDrogonTypes.CPP_VIEW_START;}
   \\\$                            { return CSPDrogonTypes.XML_DATA_CHARACTERS;}
   {DOCTYPE}                       { yybegin(IN_DOCTYPE); return CSPDrogonTypes.XML_DOCTYPE_START;}
   {WHITE_SPACE}                   { return TokenType.WHITE_SPACE; }
@@ -71,11 +71,11 @@ PUBLIC= (P|p)(U|u)(B|b)(L|l)(I|i)(C|c)
   {WHITE_SPACE}       {return TokenType.WHITE_SPACE;}
 }
 
-<IN_CPLUS_DATA> {
+<IN_CPP_DATA> {
     "$$<<"                        {return CSPDrogonTypes.DOLLARSIGN;}
-    {PARAM_NAME}                  {return CSPDrogonTypes.CPLUS_VARIABLE_NAME;}
+    {PARAM_NAME}                  {return CSPDrogonTypes.CPP_VARIABLE_NAME;}
     ";"                           {return CSPDrogonTypes.SEMICOLON;}
-    "%>"                          {yybegin(YYINITIAL); return CSPDrogonTypes.CPLUS_VIEW_END;}
+    "%>"                          {yybegin(YYINITIAL); return CSPDrogonTypes.CPP_VIEW_END;}
     {WHITE_SPACE}                 {return TokenType.WHITE_SPACE;}
 }
 
