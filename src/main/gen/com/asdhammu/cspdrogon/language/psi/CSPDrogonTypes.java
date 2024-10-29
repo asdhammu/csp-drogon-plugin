@@ -10,6 +10,8 @@ public interface CSPDrogonTypes {
 
   IElementType CPLUSPLUS_DATA = new CSPDrogonElementType("CPLUSPLUS_DATA");
   IElementType CSP_DIRECTIVE = new CSPDrogonElementType("CSP_DIRECTIVE");
+  IElementType DOCTYPE = new CSPDrogonElementType("DOCTYPE");
+  IElementType DOCTYPE_CONTENT = new CSPDrogonElementType("DOCTYPE_CONTENT");
   IElementType EMPTY_ELEMENT = new CSPDrogonElementType("EMPTY_ELEMENT");
   IElementType FILE_REFERENCE = new CSPDrogonElementType("FILE_REFERENCE");
   IElementType HTML_ELEMENT = new CSPDrogonElementType("HTML_ELEMENT");
@@ -37,6 +39,9 @@ public interface CSPDrogonTypes {
   IElementType XML_ATTRIBUTE_VALUE_TOKEN = new CSPDrogonTokenType("XML_ATTRIBUTE_VALUE_TOKEN");
   IElementType XML_CHAR_ENTITY_REF = new CSPDrogonTokenType("XML_CHAR_ENTITY_REF");
   IElementType XML_DATA_CHARACTERS = new CSPDrogonTokenType("XML_DATA_CHARACTERS");
+  IElementType XML_DOCTYPE_END = new CSPDrogonTokenType("XML_DOCTYPE_END");
+  IElementType XML_DOCTYPE_PUBLIC = new CSPDrogonTokenType("XML_DOCTYPE_PUBLIC");
+  IElementType XML_DOCTYPE_START = new CSPDrogonTokenType("XML_DOCTYPE_START");
   IElementType XML_EMPTY_ELEMENT_END = new CSPDrogonTokenType("XML_EMPTY_ELEMENT_END");
   IElementType XML_END_TAG_START = new CSPDrogonTokenType("XML_END_TAG_START");
   IElementType XML_ENTITY_REF_TOKEN = new CSPDrogonTokenType("XML_ENTITY_REF_TOKEN");
@@ -54,6 +59,12 @@ public interface CSPDrogonTypes {
       }
       else if (type == CSP_DIRECTIVE) {
         return new CSPDrogonCspDirectiveImpl(node);
+      }
+      else if (type == DOCTYPE) {
+        return new CSPDrogonDoctypeImpl(node);
+      }
+      else if (type == DOCTYPE_CONTENT) {
+        return new CSPDrogonDoctypeContentImpl(node);
       }
       else if (type == EMPTY_ELEMENT) {
         return new CSPDrogonEmptyElementImpl(node);

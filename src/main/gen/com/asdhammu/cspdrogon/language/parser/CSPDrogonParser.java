@@ -207,6 +207,44 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // XML_DOCTYPE_START doctype_content* XML_DOCTYPE_END
+  public static boolean doctype(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "doctype")) return false;
+    if (!nextTokenIs(b, XML_DOCTYPE_START)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, XML_DOCTYPE_START);
+    r = r && doctype_1(b, l + 1);
+    r = r && consumeToken(b, XML_DOCTYPE_END);
+    exit_section_(b, m, DOCTYPE, r);
+    return r;
+  }
+
+  // doctype_content*
+  private static boolean doctype_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "doctype_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!doctype_content(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "doctype_1", c)) break;
+    }
+    return true;
+  }
+
+  /* ********************************************************** */
+  // XML_NAME | XML_DOCTYPE_PUBLIC | XML_ATTRIBUTE_VALUE_TOKEN
+  public static boolean doctype_content(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "doctype_content")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, DOCTYPE_CONTENT, "<doctype content>");
+    r = consumeToken(b, XML_NAME);
+    if (!r) r = consumeToken(b, XML_DOCTYPE_PUBLIC);
+    if (!r) r = consumeToken(b, XML_ATTRIBUTE_VALUE_TOKEN);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
   // startEmptyTag XML_EMPTY_ELEMENT_END
   public static boolean empty_element(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "empty_element")) return false;
@@ -277,13 +315,12 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (html_element)
+  // html_element | doctype
   static boolean item_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "item_")) return false;
     boolean r;
-    Marker m = enter_section_(b);
     r = html_element(b, l + 1);
-    exit_section_(b, m, null, r);
+    if (!r) r = doctype(b, l + 1);
     return r;
   }
 

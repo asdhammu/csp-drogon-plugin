@@ -14,7 +14,7 @@ public class CSPDrogonAnnotator implements Annotator {
         if (element instanceof CSPDrogonStartTagElement) {
             String startTagName = element.getFirstChild().getNextSibling().getText();
             String endTagName = element.getLastChild().getPrevSibling().getText();
-            if( startTagName != null && endTagName != null && !startTagName.equals(endTagName)) {
+            if (startTagName != null && endTagName != null && !startTagName.equals(endTagName)) {
                 holder.newAnnotation(HighlightSeverity.ERROR, String.format("Tag %s not closed", startTagName))
                         .range(element.getTextRange())
                         .create();

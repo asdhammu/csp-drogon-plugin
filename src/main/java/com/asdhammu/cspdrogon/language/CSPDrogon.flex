@@ -37,7 +37,6 @@ PUBLIC= (P|p)(U|u)(B|b)(L|l)(I|i)(C|c)
 %state IN_DIRECTIVE
 %state IN_PARAMETER
 %state IN_COMMENT
-
 %state START_TAG_NAME
 %state END_TAG_NAME
 %state BEFORE_TAG_ATTRIBUTES
@@ -45,10 +44,9 @@ PUBLIC= (P|p)(U|u)(B|b)(L|l)(I|i)(C|c)
 %state ATTRIBUTE_VALUE_START
 %state ATTRIBUTE_VALUE_DQ
 %state ATTRIBUTE_VALUE_SQ
-%state PROCESSING_INSTRUCTION
 %state TAG_CHARACTERS
 %state IN_CPLUS_DATA
-
+%state IN_DOCTYPE
 %%
 
 <YYINITIAL> {
@@ -59,8 +57,17 @@ PUBLIC= (P|p)(U|u)(B|b)(L|l)(I|i)(C|c)
   "<" {TAG_NAME}                  { yybegin(START_TAG_NAME); yypushback(yylength()); }
   "</" {TAG_NAME}                 { yybegin(END_TAG_NAME); yypushback(yylength()); }
   "<%c++"                         {yybegin(IN_CPLUS_DATA); return CSPDrogonTypes.CPLUS_VIEW_START;}
-  \\\$                           { return CSPDrogonTypes.XML_DATA_CHARACTERS;}
+  \\\$                            { return CSPDrogonTypes.XML_DATA_CHARACTERS;}
+  {DOCTYPE}                       { yybegin(IN_DOCTYPE); return CSPDrogonTypes.XML_DOCTYPE_START;}
   {WHITE_SPACE}                   { return TokenType.WHITE_SPACE; }
+}
+
+<IN_DOCTYPE>{
+  {HTML}              { return CSPDrogonTypes.XML_NAME; }
+  {PUBLIC}            { return CSPDrogonTypes.XML_DOCTYPE_PUBLIC; }
+  {DTD_REF}           { return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_TOKEN;}
+  ">"                 { yybegin(YYINITIAL); return CSPDrogonTypes.XML_DOCTYPE_END; }
+  {WHITE_SPACE}       {return TokenType.WHITE_SPACE;}
 }
 
 <IN_CPLUS_DATA> {
@@ -94,12 +101,13 @@ PUBLIC= (P|p)(U|u)(B|b)(L|l)(I|i)(C|c)
   [^]                  { yybegin(YYINITIAL); yypushback(1); break; }
 }
 
-<ATTRIBUTE_VALUE_START> ">" { yybegin(YYINITIAL); return CSPDrogonTypes.XML_TAG_END; }
-<ATTRIBUTE_VALUE_START> "/>" { yybegin(YYINITIAL); return CSPDrogonTypes.XML_EMPTY_ELEMENT_END; }
-
-<ATTRIBUTE_VALUE_START> [^ \n\r\t\f'\"\>]([^ \n\r\t\f\>]|(\/[^\>]))* { yybegin(TAG_ATTRIBUTES); return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_TOKEN; }
-<ATTRIBUTE_VALUE_START> "\"" { yybegin(ATTRIBUTE_VALUE_DQ); return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_START_DELIMITER; }
-<ATTRIBUTE_VALUE_START> "'" { yybegin(ATTRIBUTE_VALUE_SQ); return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_START_DELIMITER; }
+<ATTRIBUTE_VALUE_START>{
+  ">"                 { yybegin(YYINITIAL); return CSPDrogonTypes.XML_TAG_END; }
+  "/>"                { yybegin(YYINITIAL); return CSPDrogonTypes.XML_EMPTY_ELEMENT_END; }
+  [^ \n\r\t\f'\"\>]([^ \n\r\t\f\>]|(\/[^\>]))* { yybegin(TAG_ATTRIBUTES); return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_TOKEN; }
+  "\""                { yybegin(ATTRIBUTE_VALUE_DQ); return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_START_DELIMITER; }
+  "'"                 { yybegin(ATTRIBUTE_VALUE_SQ); return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_START_DELIMITER; }
+}
 
 <ATTRIBUTE_VALUE_DQ> {
   "\"" { yybegin(TAG_ATTRIBUTES); return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_END_DELIMITER; }

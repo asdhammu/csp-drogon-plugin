@@ -16,7 +16,11 @@
 
 CSPDirectiveFile ::= (item_)*
 
-private item_ ::= (html_element)
+private item_ ::= (html_element | doctype)
+
+doctype ::= XML_DOCTYPE_START doctype_content* XML_DOCTYPE_END
+
+doctype_content ::= XML_NAME | XML_DOCTYPE_PUBLIC | XML_ATTRIBUTE_VALUE_TOKEN
 
 html_element ::= empty_element | start_tag_element | csp_directive
 

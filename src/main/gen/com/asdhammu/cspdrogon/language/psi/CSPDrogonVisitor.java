@@ -15,6 +15,14 @@ public class CSPDrogonVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitDoctype(@NotNull CSPDrogonDoctype o) {
+    visitPsiElement(o);
+  }
+
+  public void visitDoctypeContent(@NotNull CSPDrogonDoctypeContent o) {
+    visitPsiElement(o);
+  }
+
   public void visitEmptyElement(@NotNull CSPDrogonEmptyElement o) {
     visitPsiElement(o);
   }

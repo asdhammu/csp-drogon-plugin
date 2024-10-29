@@ -44,7 +44,7 @@ intellijPlatform {
     }
     pluginConfiguration {
         id.set("csp-drogon-plugin")
-        name.set("CSP Drogon Plugin")
+        name.set("CSP Drogon")
         version.set("1.0.0")
         description.set("CSP drogon plugin")
         ideaVersion {
