@@ -3,3 +3,4 @@
 [[ test_variable ]]
 <%c++ $$<<test; %>
 [[ ]]
+<%inc#include "test.h" %>

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <%view layout.csp %>
 <%layout test.csp %>
 [[ test ]]

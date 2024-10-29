@@ -8,7 +8,9 @@ import com.asdhammu.cspdrogon.language.psi.impl.*;
 
 public interface CSPDrogonTypes {
 
-  IElementType CPP_DATA = new CSPDrogonElementType("CPP_DATA");
+  IElementType CPP_DIRECTIVE = new CSPDrogonElementType("CPP_DIRECTIVE");
+  IElementType CPP_HEADER_FILE = new CSPDrogonElementType("CPP_HEADER_FILE");
+  IElementType CPP_INC_DIRECTIVE = new CSPDrogonElementType("CPP_INC_DIRECTIVE");
   IElementType CSP_DIRECTIVE = new CSPDrogonElementType("CSP_DIRECTIVE");
   IElementType DOCTYPE = new CSPDrogonElementType("DOCTYPE");
   IElementType DOCTYPE_CONTENT = new CSPDrogonElementType("DOCTYPE_CONTENT");
@@ -20,6 +22,9 @@ public interface CSPDrogonTypes {
   IElementType START_TAG_ELEMENT = new CSPDrogonElementType("START_TAG_ELEMENT");
   IElementType VIEW_DIRECTIVE = new CSPDrogonElementType("VIEW_DIRECTIVE");
 
+  IElementType CPP_INCLUDE = new CSPDrogonTokenType("CPP_INCLUDE");
+  IElementType CPP_INCLUDE_END = new CSPDrogonTokenType("CPP_INCLUDE_END");
+  IElementType CPP_INCLUDE_START = new CSPDrogonTokenType("CPP_INCLUDE_START");
   IElementType CPP_VARIABLE_NAME = new CSPDrogonTokenType("CPP_VARIABLE_NAME");
   IElementType CPP_VIEW_END = new CSPDrogonTokenType("CPP_VIEW_END");
   IElementType CPP_VIEW_START = new CSPDrogonTokenType("CPP_VIEW_START");
@@ -27,6 +32,10 @@ public interface CSPDrogonTypes {
   IElementType DIRECTIVE_END = new CSPDrogonTokenType("DIRECTIVE_END");
   IElementType DOLLARSIGN = new CSPDrogonTokenType("DOLLARSIGN");
   IElementType FILE_NAME = new CSPDrogonTokenType("FILE_NAME");
+  IElementType H_FILE = new CSPDrogonTokenType("H_FILE");
+  IElementType H_FILE_END_DELIMITER = new CSPDrogonTokenType("H_FILE_END_DELIMITER");
+  IElementType H_FILE_EXT = new CSPDrogonTokenType("H_FILE_EXT");
+  IElementType H_FILE_START_DELIMITER = new CSPDrogonTokenType("H_FILE_START_DELIMITER");
   IElementType LAYOUT_START = new CSPDrogonTokenType("LAYOUT_START");
   IElementType PARAM_END = new CSPDrogonTokenType("PARAM_END");
   IElementType PARAM_START = new CSPDrogonTokenType("PARAM_START");
@@ -54,8 +63,14 @@ public interface CSPDrogonTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == CPP_DATA) {
-        return new CSPDrogonCppDataImpl(node);
+      if (type == CPP_DIRECTIVE) {
+        return new CSPDrogonCppDirectiveImpl(node);
+      }
+      else if (type == CPP_HEADER_FILE) {
+        return new CSPDrogonCppHeaderFileImpl(node);
+      }
+      else if (type == CPP_INC_DIRECTIVE) {
+        return new CSPDrogonCppIncDirectiveImpl(node);
       }
       else if (type == CSP_DIRECTIVE) {
         return new CSPDrogonCspDirectiveImpl(node);

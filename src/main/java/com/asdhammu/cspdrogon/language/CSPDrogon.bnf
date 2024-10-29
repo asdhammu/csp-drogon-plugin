@@ -42,11 +42,17 @@ private content ::= ( html_element
 | WHITE_SPACE
 )*
 
-csp_directive ::= (view_directive | layout_directive | param_directive | cpp_data) {
+csp_directive ::= (view_directive | layout_directive | param_directive | cpp_directive | cpp_inc_directive) {
 pin=1
 }
 
-cpp_data ::= CPP_VIEW_START DOLLARSIGN CPP_VARIABLE_NAME SEMICOLON CPP_VIEW_END{
+cpp_inc_directive ::= CPP_INCLUDE_START CPP_INCLUDE cpp_header_file CPP_INCLUDE_END {
+pin=1
+}
+
+cpp_header_file ::= H_FILE_START_DELIMITER H_FILE H_FILE_EXT H_FILE_END_DELIMITER
+
+cpp_directive ::= CPP_VIEW_START DOLLARSIGN CPP_VARIABLE_NAME SEMICOLON CPP_VIEW_END {
 pin=1
 }
 

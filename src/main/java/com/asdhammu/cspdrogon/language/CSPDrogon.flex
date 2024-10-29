@@ -34,7 +34,7 @@ DTD_REF= "\"" [^\"]* "\"" | "'" [^']* "'"
 DOCTYPE= "<!" (D|d)(O|o)(C|c)(T|t)(Y|y)(P|p)(E|e)
 HTML= (H|h)(T|t)(M|m)(L|l)
 PUBLIC= (P|p)(U|u)(B|b)(L|l)(I|i)(C|c)
-
+CPP_INCLUDE = #include
 %state IN_DIRECTIVE
 %state IN_PARAMETER
 %state IN_COMMENT
@@ -48,6 +48,8 @@ PUBLIC= (P|p)(U|u)(B|b)(L|l)(I|i)(C|c)
 %state TAG_CHARACTERS
 %state IN_CPP_DATA
 %state IN_DOCTYPE
+%state START_CPP_INCLUDE
+%state CPP_H_INCLUDE_DELIMITER
 %%
 
 <YYINITIAL> {
@@ -57,10 +59,25 @@ PUBLIC= (P|p)(U|u)(B|b)(L|l)(I|i)(C|c)
   "<!--"                          { yybegin(IN_COMMENT);return CSP_COMMENT_START;}
   "<" {TAG_NAME}                  { yybegin(START_TAG_NAME); yypushback(yylength()); }
   "</" {TAG_NAME}                 { yybegin(END_TAG_NAME); yypushback(yylength()); }
-  "<%c++"                         {yybegin(IN_CPP_DATA); return CSPDrogonTypes.CPP_VIEW_START;}
+  "<%c++"                         { yybegin(IN_CPP_DATA); return CSPDrogonTypes.CPP_VIEW_START;}
+  "<%inc"                         { yybegin(START_CPP_INCLUDE); return CSPDrogonTypes.CPP_INCLUDE_START;}
   \\\$                            { return CSPDrogonTypes.XML_DATA_CHARACTERS;}
   {DOCTYPE}                       { yybegin(IN_DOCTYPE); return CSPDrogonTypes.XML_DOCTYPE_START;}
   {WHITE_SPACE}                   { return TokenType.WHITE_SPACE; }
+}
+
+<START_CPP_INCLUDE> {
+   {CPP_INCLUDE}               { return CSPDrogonTypes.CPP_INCLUDE;}
+    "\""                       {yybegin(CPP_H_INCLUDE_DELIMITER); return CSPDrogonTypes.H_FILE_START_DELIMITER;}
+   "%>"                        { yybegin(YYINITIAL); return CSPDrogonTypes.CPP_INCLUDE_END;}
+   {WHITE_SPACE}               { return TokenType.WHITE_SPACE;}
+}
+
+<CPP_H_INCLUDE_DELIMITER> {
+    {PARAM_NAME}            {return CSPDrogonTypes.H_FILE;}
+    ".h"                        {return CSPDrogonTypes.H_FILE_EXT;}
+    "\""                        { yybegin(START_CPP_INCLUDE); return CSPDrogonTypes.H_FILE_END_DELIMITER;}
+    {WHITE_SPACE}               {return TokenType.WHITE_SPACE;}
 }
 
 <IN_DOCTYPE>{
