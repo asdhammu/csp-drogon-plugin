@@ -29,8 +29,14 @@ public class CSPDrogonCppContentImpl extends ASTWrapperPsiElement implements CSP
 
   @Override
   @NotNull
+  public List<CSPDrogonCppControllerVariables> getCppControllerVariablesList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, CSPDrogonCppControllerVariables.class);
+  }
+
+  @Override
+  @Nullable
   public CSPDrogonCppVariableContent getCppVariableContent() {
-    return findNotNullChildByClass(CSPDrogonCppVariableContent.class);
+    return findChildByClass(CSPDrogonCppVariableContent.class);
   }
 
 }

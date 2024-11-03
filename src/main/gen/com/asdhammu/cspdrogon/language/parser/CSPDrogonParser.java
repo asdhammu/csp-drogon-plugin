@@ -143,14 +143,49 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // cpp_variable_content
+  // cpp_variable_content | (cpp_controller_variables)*
   public static boolean cpp_content(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "cpp_content")) return false;
-    if (!nextTokenIs(b, DOLLARSIGN)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, CPP_CONTENT, "<cpp content>");
+    r = cpp_variable_content(b, l + 1);
+    if (!r) r = cpp_content_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // (cpp_controller_variables)*
+  private static boolean cpp_content_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "cpp_content_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!cpp_content_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "cpp_content_1", c)) break;
+    }
+    return true;
+  }
+
+  // (cpp_controller_variables)
+  private static boolean cpp_content_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "cpp_content_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = cpp_variable_content(b, l + 1);
-    exit_section_(b, m, CPP_CONTENT, r);
+    r = cpp_controller_variables(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // cpp_left_side CPP_EQ cpp_right_side
+  public static boolean cpp_controller_variables(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "cpp_controller_variables")) return false;
+    if (!nextTokenIs(b, CPP_TYPE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = cpp_left_side(b, l + 1);
+    r = r && consumeToken(b, CPP_EQ);
+    r = r && cpp_right_side(b, l + 1);
+    exit_section_(b, m, CPP_CONTROLLER_VARIABLES, r);
     return r;
   }
 
@@ -194,6 +229,30 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
     r = p && consumeToken(b, CPP_INCLUDE_END) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
+  }
+
+  /* ********************************************************** */
+  // CPP_TYPE CPP_VARIABLE_NAME
+  static boolean cpp_left_side(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "cpp_left_side")) return false;
+    if (!nextTokenIs(b, CPP_TYPE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, CPP_TYPE, CPP_VARIABLE_NAME);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // CPP_AT_THE CPP_DOT CPP_GET BRACKET_START CPP_TYPE BRACKET_END ROUND_BRACKET_START DELI_START CPP_VARIABLE_NAME DELI_END ROUND_BRACKET_END SEMICOLON
+  static boolean cpp_right_side(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "cpp_right_side")) return false;
+    if (!nextTokenIs(b, CPP_AT_THE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, CPP_AT_THE, CPP_DOT, CPP_GET, BRACKET_START, CPP_TYPE, BRACKET_END, ROUND_BRACKET_START, DELI_START, CPP_VARIABLE_NAME, DELI_END, ROUND_BRACKET_END, SEMICOLON);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -357,13 +416,12 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // void_element | empty_element | start_tag_element | csp_directive
+  // empty_element | start_tag_element | csp_directive
   public static boolean html_element(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "html_element")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, HTML_ELEMENT, "<html element>");
-    r = void_element(b, l + 1);
-    if (!r) r = empty_element(b, l + 1);
+    r = empty_element(b, l + 1);
     if (!r) r = start_tag_element(b, l + 1);
     if (!r) r = csp_directive(b, l + 1);
     exit_section_(b, l, m, r, false, null);
@@ -531,19 +589,6 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
     r = r && directive_content(b, l + 1);
     exit_section_(b, l, m, r, p, null);
     return r || p;
-  }
-
-  /* ********************************************************** */
-  // startEmptyTag XML_VOID_ELEMENT_END
-  public static boolean void_element(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "void_element")) return false;
-    if (!nextTokenIs(b, XML_START_TAG_START)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = startEmptyTag(b, l + 1);
-    r = r && consumeToken(b, XML_VOID_ELEMENT_END);
-    exit_section_(b, m, VOID_ELEMENT, r);
-    return r;
   }
 
 }

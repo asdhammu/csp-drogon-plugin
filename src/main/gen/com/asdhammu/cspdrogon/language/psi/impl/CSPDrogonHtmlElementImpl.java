@@ -45,10 +45,4 @@ public class CSPDrogonHtmlElementImpl extends ASTWrapperPsiElement implements CS
     return findChildByClass(CSPDrogonStartTagElement.class);
   }
 
-  @Override
-  @Nullable
-  public CSPDrogonVoidElement getVoidElement() {
-    return findChildByClass(CSPDrogonVoidElement.class);
-  }
-
 }

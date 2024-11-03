@@ -11,6 +11,10 @@ public class CSPDrogonVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitCppControllerVariables(@NotNull CSPDrogonCppControllerVariables o) {
+    visitPsiElement(o);
+  }
+
   public void visitCppDirective(@NotNull CSPDrogonCppDirective o) {
     visitPsiElement(o);
   }
@@ -64,10 +68,6 @@ public class CSPDrogonVisitor extends PsiElementVisitor {
   }
 
   public void visitViewDirective(@NotNull CSPDrogonViewDirective o) {
-    visitPsiElement(o);
-  }
-
-  public void visitVoidElement(@NotNull CSPDrogonVoidElement o) {
     visitPsiElement(o);
   }
 

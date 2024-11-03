@@ -9,6 +9,9 @@ public class CspParserTests extends ParsingTestCase {
         super("", "csp", new CSPDrogonParserDefinition());
     }
 
+    public void testHtmlData(){
+        doTest(true);
+    }
 
     public void testDrogonDirectives() {
         doTest(true);

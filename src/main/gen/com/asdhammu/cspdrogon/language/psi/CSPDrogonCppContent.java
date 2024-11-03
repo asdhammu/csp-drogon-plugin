@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface CSPDrogonCppContent extends PsiElement {
 
   @NotNull
+  List<CSPDrogonCppControllerVariables> getCppControllerVariablesList();
+
+  @Nullable
   CSPDrogonCppVariableContent getCppVariableContent();
 
 }
