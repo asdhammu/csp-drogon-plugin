@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface CSPDrogonCppDirective extends PsiElement {
+public interface CSPDrogonCppContent extends PsiElement {
 
-  @Nullable
-  CSPDrogonCppContent getCppContent();
+  @NotNull
+  CSPDrogonCppVariableContent getCppVariableContent();
 
 }

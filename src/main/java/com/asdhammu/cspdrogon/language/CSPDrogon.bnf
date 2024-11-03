@@ -22,10 +22,11 @@ doctype ::= XML_DOCTYPE_START doctype_content* XML_DOCTYPE_END
 
 doctype_content ::= XML_NAME | XML_DOCTYPE_PUBLIC | XML_ATTRIBUTE_VALUE_TOKEN
 
-html_element ::= empty_element | start_tag_element | csp_directive
+html_element ::= void_element | empty_element | start_tag_element | csp_directive
 
 start_tag_element ::= startTag content endTag
 empty_element ::= startEmptyTag XML_EMPTY_ELEMENT_END
+void_element ::= startEmptyTag XML_VOID_ELEMENT_END
 
 private startTag ::= XML_START_TAG_START XML_NAME attribute* XML_TAG_END
 private endTag ::= XML_END_TAG_START XML_NAME XML_TAG_END
@@ -52,9 +53,13 @@ pin=1
 
 cpp_header_file ::= H_FILE_START_DELIMITER H_FILE H_FILE_EXT H_FILE_END_DELIMITER
 
-cpp_directive ::= CPP_VIEW_START DOLLARSIGN CPP_VARIABLE_NAME SEMICOLON CPP_VIEW_END {
+cpp_directive ::= CPP_VIEW_START cpp_content CPP_VIEW_END {
 pin=1
 }
+
+cpp_content ::= cpp_variable_content
+
+cpp_variable_content ::= DOLLARSIGN CPP_VARIABLE_NAME SEMICOLON
 
 view_directive ::= VIEW_START directive_content {
 pin=1

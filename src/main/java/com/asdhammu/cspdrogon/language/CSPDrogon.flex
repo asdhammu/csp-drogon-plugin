@@ -35,6 +35,7 @@ DOCTYPE= "<!" (D|d)(O|o)(C|c)(T|t)(Y|y)(P|p)(E|e)
 HTML= (H|h)(T|t)(M|m)(L|l)
 PUBLIC= (P|p)(U|u)(B|b)(L|l)(I|i)(C|c)
 CPP_INCLUDE = #include
+VOID_ELEMENT=[mM][eE][tT][aA]|[lL][iI][nN][kK]
 %state IN_DIRECTIVE
 %state IN_PARAMETER
 %state IN_COMMENT
@@ -50,6 +51,11 @@ CPP_INCLUDE = #include
 %state IN_DOCTYPE
 %state START_CPP_INCLUDE
 %state CPP_H_INCLUDE_DELIMITER
+%state BEFORE_VOID_TAG_ATTRIBUTES
+%state VOID_TAG_ATTRIBUTES
+%state VOID_ATTRIBUTE_VALUE_START
+%state VOID_ATTRIBUTE_VALUE_SQ
+%state VOID_ATTRIBUTE_VALUE_DQ
 %%
 
 <YYINITIAL> {
@@ -98,8 +104,15 @@ CPP_INCLUDE = #include
 
 <START_TAG_NAME, TAG_CHARACTERS> "<" { return CSPDrogonTypes.XML_START_TAG_START; }
 <YYINITIAL, END_TAG_NAME> "</" { return CSPDrogonTypes.XML_END_TAG_START; }
-
+<START_TAG_NAME> (meta|link) {yybegin(BEFORE_VOID_TAG_ATTRIBUTES); return CSPDrogonTypes.XML_NAME;}
 <START_TAG_NAME, END_TAG_NAME> {TAG_NAME} { yybegin(BEFORE_TAG_ATTRIBUTES); return CSPDrogonTypes.XML_NAME; }
+
+<BEFORE_VOID_TAG_ATTRIBUTES> {
+  ">" {yybegin(YYINITIAL); return CSPDrogonTypes.XML_VOID_ELEMENT_END;}
+  {WHITE_SPACE_CHARS} { yybegin(VOID_TAG_ATTRIBUTES); return TokenType.WHITE_SPACE;}
+  [^] { yybegin(YYINITIAL); yypushback(1); break; }
+}
+
 
 <BEFORE_TAG_ATTRIBUTES, TAG_CHARACTERS> ">" { yybegin(YYINITIAL); return CSPDrogonTypes.XML_TAG_END; }
 <BEFORE_TAG_ATTRIBUTES, TAG_CHARACTERS> "/>" { yybegin(YYINITIAL); return CSPDrogonTypes.XML_EMPTY_ELEMENT_END; }
@@ -107,6 +120,16 @@ CPP_INCLUDE = #include
 <BEFORE_TAG_ATTRIBUTES, START_TAG_NAME, END_TAG_NAME> [^] { yybegin(YYINITIAL); yypushback(1); break; }
 
 <TAG_CHARACTERS> [^] { return CSPDrogonTypes.XML_TAG_CHARACTERS; }
+
+<VOID_TAG_ATTRIBUTES> {
+  {ATTRIBUTE_NAME}     { return CSPDrogonTypes.XML_NAME; }
+  ">"                  { yybegin(YYINITIAL); return CSPDrogonTypes.XML_VOID_ELEMENT_END; }
+  "="                  { yybegin(VOID_ATTRIBUTE_VALUE_START); return CSPDrogonTypes.XML_EQ; }
+  "\""                 { yybegin(VOID_ATTRIBUTE_VALUE_DQ); return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_START_DELIMITER; }
+  "'"                  { yybegin(VOID_ATTRIBUTE_VALUE_SQ); return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_START_DELIMITER; }
+  {WHITE_SPACE}        {return TokenType.WHITE_SPACE;}
+  [^]                  { yybegin(YYINITIAL); yypushback(1); break; }
+}
 
 <TAG_ATTRIBUTES> {
   {ATTRIBUTE_NAME}     { return CSPDrogonTypes.XML_NAME; }
@@ -127,6 +150,15 @@ CPP_INCLUDE = #include
   "'"                 { yybegin(ATTRIBUTE_VALUE_SQ); return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_START_DELIMITER; }
 }
 
+
+<VOID_ATTRIBUTE_VALUE_START>{
+  ">"                 { yybegin(YYINITIAL); return CSPDrogonTypes.XML_VOID_ELEMENT_END; }
+  [^ \n\r\t\f'\"\>]([^ \n\r\t\f\>]|(\/[^\>]))* { yybegin(VOID_TAG_ATTRIBUTES); return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_TOKEN; }
+  "\""                { yybegin(VOID_ATTRIBUTE_VALUE_DQ); return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_START_DELIMITER; }
+  "'"                 { yybegin(VOID_ATTRIBUTE_VALUE_SQ); return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_START_DELIMITER; }
+}
+
+
 <ATTRIBUTE_VALUE_DQ> {
   "\"" { yybegin(TAG_ATTRIBUTES); return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_END_DELIMITER; }
   \\\$ { return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_TOKEN; }
@@ -135,6 +167,18 @@ CPP_INCLUDE = #include
 
 <ATTRIBUTE_VALUE_SQ> {
   "'" { yybegin(TAG_ATTRIBUTES); return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_END_DELIMITER; }
+  \\\$ { return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_TOKEN; }
+  [^] { return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_TOKEN;}
+}
+
+<VOID_ATTRIBUTE_VALUE_DQ> {
+  "\"" { yybegin(VOID_TAG_ATTRIBUTES); return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_END_DELIMITER; }
+  \\\$ { return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_TOKEN; }
+  [^] { return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_TOKEN;}
+}
+
+<VOID_ATTRIBUTE_VALUE_SQ> {
+  "'" { yybegin(VOID_TAG_ATTRIBUTES); return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_END_DELIMITER; }
   \\\$ { return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_TOKEN; }
   [^] { return CSPDrogonTypes.XML_ATTRIBUTE_VALUE_TOKEN;}
 }

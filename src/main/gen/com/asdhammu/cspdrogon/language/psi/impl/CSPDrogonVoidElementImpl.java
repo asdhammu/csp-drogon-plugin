@@ -11,44 +11,20 @@ import static com.asdhammu.cspdrogon.language.psi.CSPDrogonTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.asdhammu.cspdrogon.language.psi.*;
 
-public class CSPDrogonHtmlElementImpl extends ASTWrapperPsiElement implements CSPDrogonHtmlElement {
+public class CSPDrogonVoidElementImpl extends ASTWrapperPsiElement implements CSPDrogonVoidElement {
 
-  public CSPDrogonHtmlElementImpl(@NotNull ASTNode node) {
+  public CSPDrogonVoidElementImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull CSPDrogonVisitor visitor) {
-    visitor.visitHtmlElement(this);
+    visitor.visitVoidElement(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof CSPDrogonVisitor) accept((CSPDrogonVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @Nullable
-  public CSPDrogonCspDirective getCspDirective() {
-    return findChildByClass(CSPDrogonCspDirective.class);
-  }
-
-  @Override
-  @Nullable
-  public CSPDrogonEmptyElement getEmptyElement() {
-    return findChildByClass(CSPDrogonEmptyElement.class);
-  }
-
-  @Override
-  @Nullable
-  public CSPDrogonStartTagElement getStartTagElement() {
-    return findChildByClass(CSPDrogonStartTagElement.class);
-  }
-
-  @Override
-  @Nullable
-  public CSPDrogonVoidElement getVoidElement() {
-    return findChildByClass(CSPDrogonVoidElement.class);
   }
 
 }

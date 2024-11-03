@@ -27,4 +27,10 @@ public class CSPDrogonCppDirectiveImpl extends ASTWrapperPsiElement implements C
     else super.accept(visitor);
   }
 
+  @Override
+  @Nullable
+  public CSPDrogonCppContent getCppContent() {
+    return findChildByClass(CSPDrogonCppContent.class);
+  }
+
 }

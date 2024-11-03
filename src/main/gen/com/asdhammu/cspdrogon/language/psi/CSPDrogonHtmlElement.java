@@ -16,4 +16,7 @@ public interface CSPDrogonHtmlElement extends PsiElement {
   @Nullable
   CSPDrogonStartTagElement getStartTagElement();
 
+  @Nullable
+  CSPDrogonVoidElement getVoidElement();
+
 }

@@ -11,14 +11,14 @@ import static com.asdhammu.cspdrogon.language.psi.CSPDrogonTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.asdhammu.cspdrogon.language.psi.*;
 
-public class CSPDrogonHtmlElementImpl extends ASTWrapperPsiElement implements CSPDrogonHtmlElement {
+public class CSPDrogonCppContentImpl extends ASTWrapperPsiElement implements CSPDrogonCppContent {
 
-  public CSPDrogonHtmlElementImpl(@NotNull ASTNode node) {
+  public CSPDrogonCppContentImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull CSPDrogonVisitor visitor) {
-    visitor.visitHtmlElement(this);
+    visitor.visitCppContent(this);
   }
 
   @Override
@@ -28,27 +28,9 @@ public class CSPDrogonHtmlElementImpl extends ASTWrapperPsiElement implements CS
   }
 
   @Override
-  @Nullable
-  public CSPDrogonCspDirective getCspDirective() {
-    return findChildByClass(CSPDrogonCspDirective.class);
-  }
-
-  @Override
-  @Nullable
-  public CSPDrogonEmptyElement getEmptyElement() {
-    return findChildByClass(CSPDrogonEmptyElement.class);
-  }
-
-  @Override
-  @Nullable
-  public CSPDrogonStartTagElement getStartTagElement() {
-    return findChildByClass(CSPDrogonStartTagElement.class);
-  }
-
-  @Override
-  @Nullable
-  public CSPDrogonVoidElement getVoidElement() {
-    return findChildByClass(CSPDrogonVoidElement.class);
+  @NotNull
+  public CSPDrogonCppVariableContent getCppVariableContent() {
+    return findNotNullChildByClass(CSPDrogonCppVariableContent.class);
   }
 
 }

@@ -143,14 +143,28 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CPP_VIEW_START DOLLARSIGN CPP_VARIABLE_NAME SEMICOLON CPP_VIEW_END
+  // cpp_variable_content
+  public static boolean cpp_content(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "cpp_content")) return false;
+    if (!nextTokenIs(b, DOLLARSIGN)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = cpp_variable_content(b, l + 1);
+    exit_section_(b, m, CPP_CONTENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // CPP_VIEW_START cpp_content CPP_VIEW_END
   public static boolean cpp_directive(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "cpp_directive")) return false;
     if (!nextTokenIs(b, CPP_VIEW_START)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, CPP_DIRECTIVE, null);
-    r = consumeTokens(b, 1, CPP_VIEW_START, DOLLARSIGN, CPP_VARIABLE_NAME, SEMICOLON, CPP_VIEW_END);
+    r = consumeToken(b, CPP_VIEW_START);
     p = r; // pin = 1
+    r = r && report_error_(b, cpp_content(b, l + 1));
+    r = p && consumeToken(b, CPP_VIEW_END) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -180,6 +194,18 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
     r = p && consumeToken(b, CPP_INCLUDE_END) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
+  }
+
+  /* ********************************************************** */
+  // DOLLARSIGN CPP_VARIABLE_NAME SEMICOLON
+  public static boolean cpp_variable_content(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "cpp_variable_content")) return false;
+    if (!nextTokenIs(b, DOLLARSIGN)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, DOLLARSIGN, CPP_VARIABLE_NAME, SEMICOLON);
+    exit_section_(b, m, CPP_VARIABLE_CONTENT, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -331,12 +357,13 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // empty_element | start_tag_element | csp_directive
+  // void_element | empty_element | start_tag_element | csp_directive
   public static boolean html_element(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "html_element")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, HTML_ELEMENT, "<html element>");
-    r = empty_element(b, l + 1);
+    r = void_element(b, l + 1);
+    if (!r) r = empty_element(b, l + 1);
     if (!r) r = start_tag_element(b, l + 1);
     if (!r) r = csp_directive(b, l + 1);
     exit_section_(b, l, m, r, false, null);
@@ -504,6 +531,19 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
     r = r && directive_content(b, l + 1);
     exit_section_(b, l, m, r, p, null);
     return r || p;
+  }
+
+  /* ********************************************************** */
+  // startEmptyTag XML_VOID_ELEMENT_END
+  public static boolean void_element(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "void_element")) return false;
+    if (!nextTokenIs(b, XML_START_TAG_START)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = startEmptyTag(b, l + 1);
+    r = r && consumeToken(b, XML_VOID_ELEMENT_END);
+    exit_section_(b, m, VOID_ELEMENT, r);
+    return r;
   }
 
 }

@@ -7,6 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public class CSPDrogonVisitor extends PsiElementVisitor {
 
+  public void visitCppContent(@NotNull CSPDrogonCppContent o) {
+    visitPsiElement(o);
+  }
+
   public void visitCppDirective(@NotNull CSPDrogonCppDirective o) {
     visitPsiElement(o);
   }
@@ -16,6 +20,10 @@ public class CSPDrogonVisitor extends PsiElementVisitor {
   }
 
   public void visitCppIncDirective(@NotNull CSPDrogonCppIncDirective o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCppVariableContent(@NotNull CSPDrogonCppVariableContent o) {
     visitPsiElement(o);
   }
 
@@ -56,6 +64,10 @@ public class CSPDrogonVisitor extends PsiElementVisitor {
   }
 
   public void visitViewDirective(@NotNull CSPDrogonViewDirective o) {
+    visitPsiElement(o);
+  }
+
+  public void visitVoidElement(@NotNull CSPDrogonVoidElement o) {
     visitPsiElement(o);
   }
 

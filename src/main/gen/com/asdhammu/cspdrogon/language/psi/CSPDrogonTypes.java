@@ -8,9 +8,11 @@ import com.asdhammu.cspdrogon.language.psi.impl.*;
 
 public interface CSPDrogonTypes {
 
+  IElementType CPP_CONTENT = new CSPDrogonElementType("CPP_CONTENT");
   IElementType CPP_DIRECTIVE = new CSPDrogonElementType("CPP_DIRECTIVE");
   IElementType CPP_HEADER_FILE = new CSPDrogonElementType("CPP_HEADER_FILE");
   IElementType CPP_INC_DIRECTIVE = new CSPDrogonElementType("CPP_INC_DIRECTIVE");
+  IElementType CPP_VARIABLE_CONTENT = new CSPDrogonElementType("CPP_VARIABLE_CONTENT");
   IElementType CSP_DIRECTIVE = new CSPDrogonElementType("CSP_DIRECTIVE");
   IElementType DOCTYPE = new CSPDrogonElementType("DOCTYPE");
   IElementType DOCTYPE_CONTENT = new CSPDrogonElementType("DOCTYPE_CONTENT");
@@ -21,6 +23,7 @@ public interface CSPDrogonTypes {
   IElementType PARAM_DIRECTIVE = new CSPDrogonElementType("PARAM_DIRECTIVE");
   IElementType START_TAG_ELEMENT = new CSPDrogonElementType("START_TAG_ELEMENT");
   IElementType VIEW_DIRECTIVE = new CSPDrogonElementType("VIEW_DIRECTIVE");
+  IElementType VOID_ELEMENT = new CSPDrogonElementType("VOID_ELEMENT");
 
   IElementType CPP_INCLUDE = new CSPDrogonTokenType("CPP_INCLUDE");
   IElementType CPP_INCLUDE_END = new CSPDrogonTokenType("CPP_INCLUDE_END");
@@ -59,11 +62,15 @@ public interface CSPDrogonTypes {
   IElementType XML_START_TAG_START = new CSPDrogonTokenType("XML_START_TAG_START");
   IElementType XML_TAG_CHARACTERS = new CSPDrogonTokenType("XML_TAG_CHARACTERS");
   IElementType XML_TAG_END = new CSPDrogonTokenType("XML_TAG_END");
+  IElementType XML_VOID_ELEMENT_END = new CSPDrogonTokenType("XML_VOID_ELEMENT_END");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == CPP_DIRECTIVE) {
+      if (type == CPP_CONTENT) {
+        return new CSPDrogonCppContentImpl(node);
+      }
+      else if (type == CPP_DIRECTIVE) {
         return new CSPDrogonCppDirectiveImpl(node);
       }
       else if (type == CPP_HEADER_FILE) {
@@ -71,6 +78,9 @@ public interface CSPDrogonTypes {
       }
       else if (type == CPP_INC_DIRECTIVE) {
         return new CSPDrogonCppIncDirectiveImpl(node);
+      }
+      else if (type == CPP_VARIABLE_CONTENT) {
+        return new CSPDrogonCppVariableContentImpl(node);
       }
       else if (type == CSP_DIRECTIVE) {
         return new CSPDrogonCspDirectiveImpl(node);
@@ -101,6 +111,9 @@ public interface CSPDrogonTypes {
       }
       else if (type == VIEW_DIRECTIVE) {
         return new CSPDrogonViewDirectiveImpl(node);
+      }
+      else if (type == VOID_ELEMENT) {
+        return new CSPDrogonVoidElementImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }
