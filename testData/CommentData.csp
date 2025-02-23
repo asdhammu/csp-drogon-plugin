@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<%view layout.csp %>
+<%layout test.csp %>
+[[ test ]]
+<%layout test.csp %>
+<!-- test -->
+<%layout test.csp %>
+[[ cool ]]
+<!-- sdfdsf -->
+[[ cool ]]
+<%layout test.csp %> <!-- cool -->
+
