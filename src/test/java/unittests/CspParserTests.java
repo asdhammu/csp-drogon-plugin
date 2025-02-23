@@ -17,6 +17,10 @@ public class CspParserTests extends ParsingTestCase {
         doTest(true);
     }
 
+    public void testCplusplus() {
+        doTest(true);
+    }
+
     public void testCommentData(){
         doTest(true);
     }

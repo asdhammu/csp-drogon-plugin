@@ -11,32 +11,20 @@ import static com.asdhammu.cspdrogon.language.psi.CSPDrogonTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.asdhammu.cspdrogon.language.psi.*;
 
-public class CSPDrogonCppContentImpl extends ASTWrapperPsiElement implements CSPDrogonCppContent {
+public class CSPDrogonStreamExpressionImpl extends ASTWrapperPsiElement implements CSPDrogonStreamExpression {
 
-  public CSPDrogonCppContentImpl(@NotNull ASTNode node) {
+  public CSPDrogonStreamExpressionImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull CSPDrogonVisitor visitor) {
-    visitor.visitCppContent(this);
+    visitor.visitStreamExpression(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof CSPDrogonVisitor) accept((CSPDrogonVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @Nullable
-  public CSPDrogonCppControlBlock getCppControlBlock() {
-    return findChildByClass(CSPDrogonCppControlBlock.class);
-  }
-
-  @Override
-  @Nullable
-  public CSPDrogonStreamExpression getStreamExpression() {
-    return findChildByClass(CSPDrogonStreamExpression.class);
   }
 
 }

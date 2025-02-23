@@ -8,54 +8,64 @@ import com.asdhammu.cspdrogon.language.psi.impl.*;
 
 public interface CSPDrogonTypes {
 
+  IElementType CONDITION = new CSPDrogonElementType("CONDITION");
   IElementType CPP_CONTENT = new CSPDrogonElementType("CPP_CONTENT");
-  IElementType CPP_CONTROLLER_VARIABLES = new CSPDrogonElementType("CPP_CONTROLLER_VARIABLES");
+  IElementType CPP_CONTROL_BLOCK = new CSPDrogonElementType("CPP_CONTROL_BLOCK");
+  IElementType CPP_CONTROL_BLOCK_END = new CSPDrogonElementType("CPP_CONTROL_BLOCK_END");
+  IElementType CPP_CONTROL_BLOCK_START = new CSPDrogonElementType("CPP_CONTROL_BLOCK_START");
   IElementType CPP_DIRECTIVE = new CSPDrogonElementType("CPP_DIRECTIVE");
   IElementType CPP_HEADER_FILE = new CSPDrogonElementType("CPP_HEADER_FILE");
   IElementType CPP_INC_DIRECTIVE = new CSPDrogonElementType("CPP_INC_DIRECTIVE");
-  IElementType CPP_VARIABLE_CONTENT = new CSPDrogonElementType("CPP_VARIABLE_CONTENT");
   IElementType CSP_DIRECTIVE = new CSPDrogonElementType("CSP_DIRECTIVE");
   IElementType DOCTYPE = new CSPDrogonElementType("DOCTYPE");
   IElementType DOCTYPE_CONTENT = new CSPDrogonElementType("DOCTYPE_CONTENT");
   IElementType EMPTY_ELEMENT = new CSPDrogonElementType("EMPTY_ELEMENT");
+  IElementType EXPRESSION = new CSPDrogonElementType("EXPRESSION");
   IElementType FILE_REFERENCE = new CSPDrogonElementType("FILE_REFERENCE");
   IElementType HTML_ELEMENT = new CSPDrogonElementType("HTML_ELEMENT");
   IElementType LAYOUT_DIRECTIVE = new CSPDrogonElementType("LAYOUT_DIRECTIVE");
   IElementType PARAM_DIRECTIVE = new CSPDrogonElementType("PARAM_DIRECTIVE");
   IElementType START_TAG_ELEMENT = new CSPDrogonElementType("START_TAG_ELEMENT");
+  IElementType STREAM_EXPRESSION = new CSPDrogonElementType("STREAM_EXPRESSION");
   IElementType VIEW_DIRECTIVE = new CSPDrogonElementType("VIEW_DIRECTIVE");
 
-  IElementType BRACKET_END = new CSPDrogonTokenType("BRACKET_END");
-  IElementType BRACKET_START = new CSPDrogonTokenType("BRACKET_START");
-  IElementType CPP_AT_THE = new CSPDrogonTokenType("CPP_AT_THE");
-  IElementType CPP_DOT = new CSPDrogonTokenType("CPP_DOT");
+  IElementType AND = new CSPDrogonTokenType("AND");
+  IElementType COMMA = new CSPDrogonTokenType("COMMA");
+  IElementType COMPARISON_OPEARTOR = new CSPDrogonTokenType("COMPARISON_OPEARTOR");
   IElementType CPP_EQ = new CSPDrogonTokenType("CPP_EQ");
-  IElementType CPP_GET = new CSPDrogonTokenType("CPP_GET");
   IElementType CPP_INCLUDE = new CSPDrogonTokenType("CPP_INCLUDE");
   IElementType CPP_INCLUDE_END = new CSPDrogonTokenType("CPP_INCLUDE_END");
   IElementType CPP_INCLUDE_START = new CSPDrogonTokenType("CPP_INCLUDE_START");
   IElementType CPP_TYPE = new CSPDrogonTokenType("CPP_TYPE");
-  IElementType CPP_VARIABLE_NAME = new CSPDrogonTokenType("CPP_VARIABLE_NAME");
   IElementType CPP_VIEW_END = new CSPDrogonTokenType("CPP_VIEW_END");
   IElementType CPP_VIEW_START = new CSPDrogonTokenType("CPP_VIEW_START");
   IElementType CSP_EXT = new CSPDrogonTokenType("CSP_EXT");
-  IElementType DELI_END = new CSPDrogonTokenType("DELI_END");
-  IElementType DELI_START = new CSPDrogonTokenType("DELI_START");
   IElementType DIRECTIVE_END = new CSPDrogonTokenType("DIRECTIVE_END");
-  IElementType DOLLARSIGN = new CSPDrogonTokenType("DOLLARSIGN");
+  IElementType DOT = new CSPDrogonTokenType("DOT");
+  IElementType ELSE = new CSPDrogonTokenType("ELSE");
   IElementType FILE_NAME = new CSPDrogonTokenType("FILE_NAME");
+  IElementType FOR = new CSPDrogonTokenType("FOR");
   IElementType H_FILE = new CSPDrogonTokenType("H_FILE");
   IElementType H_FILE_END_DELIMITER = new CSPDrogonTokenType("H_FILE_END_DELIMITER");
   IElementType H_FILE_EXT = new CSPDrogonTokenType("H_FILE_EXT");
   IElementType H_FILE_START_DELIMITER = new CSPDrogonTokenType("H_FILE_START_DELIMITER");
+  IElementType IDENTIFIER = new CSPDrogonTokenType("IDENTIFIER");
+  IElementType IF = new CSPDrogonTokenType("IF");
   IElementType LAYOUT_START = new CSPDrogonTokenType("LAYOUT_START");
+  IElementType LBRACE = new CSPDrogonTokenType("LBRACE");
+  IElementType LPAREN = new CSPDrogonTokenType("LPAREN");
+  IElementType NOT = new CSPDrogonTokenType("NOT");
+  IElementType OR = new CSPDrogonTokenType("OR");
   IElementType PARAM_END = new CSPDrogonTokenType("PARAM_END");
   IElementType PARAM_START = new CSPDrogonTokenType("PARAM_START");
   IElementType PARAM_VARIABLE_NAME = new CSPDrogonTokenType("PARAM_VARIABLE_NAME");
-  IElementType ROUND_BRACKET_END = new CSPDrogonTokenType("ROUND_BRACKET_END");
-  IElementType ROUND_BRACKET_START = new CSPDrogonTokenType("ROUND_BRACKET_START");
+  IElementType RBRACE = new CSPDrogonTokenType("RBRACE");
+  IElementType RPAREN = new CSPDrogonTokenType("RPAREN");
   IElementType SEMICOLON = new CSPDrogonTokenType("SEMICOLON");
+  IElementType STREAM_OBJECT = new CSPDrogonTokenType("STREAM_OBJECT");
+  IElementType STREAM_OPERATOR = new CSPDrogonTokenType("STREAM_OPERATOR");
   IElementType VIEW_START = new CSPDrogonTokenType("VIEW_START");
+  IElementType WHILE = new CSPDrogonTokenType("WHILE");
   IElementType WHITE_SPACE = new CSPDrogonTokenType("WHITE_SPACE");
   IElementType XML_ATTRIBUTE_VALUE_END_DELIMITER = new CSPDrogonTokenType("XML_ATTRIBUTE_VALUE_END_DELIMITER");
   IElementType XML_ATTRIBUTE_VALUE_START_DELIMITER = new CSPDrogonTokenType("XML_ATTRIBUTE_VALUE_START_DELIMITER");
@@ -77,11 +87,20 @@ public interface CSPDrogonTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == CPP_CONTENT) {
+      if (type == CONDITION) {
+        return new CSPDrogonConditionImpl(node);
+      }
+      else if (type == CPP_CONTENT) {
         return new CSPDrogonCppContentImpl(node);
       }
-      else if (type == CPP_CONTROLLER_VARIABLES) {
-        return new CSPDrogonCppControllerVariablesImpl(node);
+      else if (type == CPP_CONTROL_BLOCK) {
+        return new CSPDrogonCppControlBlockImpl(node);
+      }
+      else if (type == CPP_CONTROL_BLOCK_END) {
+        return new CSPDrogonCppControlBlockEndImpl(node);
+      }
+      else if (type == CPP_CONTROL_BLOCK_START) {
+        return new CSPDrogonCppControlBlockStartImpl(node);
       }
       else if (type == CPP_DIRECTIVE) {
         return new CSPDrogonCppDirectiveImpl(node);
@@ -91,9 +110,6 @@ public interface CSPDrogonTypes {
       }
       else if (type == CPP_INC_DIRECTIVE) {
         return new CSPDrogonCppIncDirectiveImpl(node);
-      }
-      else if (type == CPP_VARIABLE_CONTENT) {
-        return new CSPDrogonCppVariableContentImpl(node);
       }
       else if (type == CSP_DIRECTIVE) {
         return new CSPDrogonCspDirectiveImpl(node);
@@ -106,6 +122,9 @@ public interface CSPDrogonTypes {
       }
       else if (type == EMPTY_ELEMENT) {
         return new CSPDrogonEmptyElementImpl(node);
+      }
+      else if (type == EXPRESSION) {
+        return new CSPDrogonExpressionImpl(node);
       }
       else if (type == FILE_REFERENCE) {
         return new CSPDrogonFileReferenceImpl(node);
@@ -121,6 +140,9 @@ public interface CSPDrogonTypes {
       }
       else if (type == START_TAG_ELEMENT) {
         return new CSPDrogonStartTagElementImpl(node);
+      }
+      else if (type == STREAM_EXPRESSION) {
+        return new CSPDrogonStreamExpressionImpl(node);
       }
       else if (type == VIEW_DIRECTIVE) {
         return new CSPDrogonViewDirectiveImpl(node);

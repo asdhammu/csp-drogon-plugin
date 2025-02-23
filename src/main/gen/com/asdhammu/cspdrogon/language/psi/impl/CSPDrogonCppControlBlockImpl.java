@@ -11,14 +11,14 @@ import static com.asdhammu.cspdrogon.language.psi.CSPDrogonTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.asdhammu.cspdrogon.language.psi.*;
 
-public class CSPDrogonCppContentImpl extends ASTWrapperPsiElement implements CSPDrogonCppContent {
+public class CSPDrogonCppControlBlockImpl extends ASTWrapperPsiElement implements CSPDrogonCppControlBlock {
 
-  public CSPDrogonCppContentImpl(@NotNull ASTNode node) {
+  public CSPDrogonCppControlBlockImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull CSPDrogonVisitor visitor) {
-    visitor.visitCppContent(this);
+    visitor.visitCppControlBlock(this);
   }
 
   @Override
@@ -29,14 +29,14 @@ public class CSPDrogonCppContentImpl extends ASTWrapperPsiElement implements CSP
 
   @Override
   @Nullable
-  public CSPDrogonCppControlBlock getCppControlBlock() {
-    return findChildByClass(CSPDrogonCppControlBlock.class);
+  public CSPDrogonCppControlBlockEnd getCppControlBlockEnd() {
+    return findChildByClass(CSPDrogonCppControlBlockEnd.class);
   }
 
   @Override
   @Nullable
-  public CSPDrogonStreamExpression getStreamExpression() {
-    return findChildByClass(CSPDrogonStreamExpression.class);
+  public CSPDrogonCppControlBlockStart getCppControlBlockStart() {
+    return findChildByClass(CSPDrogonCppControlBlockStart.class);
   }
 
 }

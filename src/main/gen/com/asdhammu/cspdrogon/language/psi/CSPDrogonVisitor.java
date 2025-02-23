@@ -7,11 +7,23 @@ import com.intellij.psi.PsiElement;
 
 public class CSPDrogonVisitor extends PsiElementVisitor {
 
+  public void visitCondition(@NotNull CSPDrogonCondition o) {
+    visitPsiElement(o);
+  }
+
   public void visitCppContent(@NotNull CSPDrogonCppContent o) {
     visitPsiElement(o);
   }
 
-  public void visitCppControllerVariables(@NotNull CSPDrogonCppControllerVariables o) {
+  public void visitCppControlBlock(@NotNull CSPDrogonCppControlBlock o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCppControlBlockEnd(@NotNull CSPDrogonCppControlBlockEnd o) {
+    visitPsiElement(o);
+  }
+
+  public void visitCppControlBlockStart(@NotNull CSPDrogonCppControlBlockStart o) {
     visitPsiElement(o);
   }
 
@@ -24,10 +36,6 @@ public class CSPDrogonVisitor extends PsiElementVisitor {
   }
 
   public void visitCppIncDirective(@NotNull CSPDrogonCppIncDirective o) {
-    visitPsiElement(o);
-  }
-
-  public void visitCppVariableContent(@NotNull CSPDrogonCppVariableContent o) {
     visitPsiElement(o);
   }
 
@@ -44,6 +52,10 @@ public class CSPDrogonVisitor extends PsiElementVisitor {
   }
 
   public void visitEmptyElement(@NotNull CSPDrogonEmptyElement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitExpression(@NotNull CSPDrogonExpression o) {
     visitPsiElement(o);
   }
 
@@ -64,6 +76,10 @@ public class CSPDrogonVisitor extends PsiElementVisitor {
   }
 
   public void visitStartTagElement(@NotNull CSPDrogonStartTagElement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitStreamExpression(@NotNull CSPDrogonStreamExpression o) {
     visitPsiElement(o);
   }
 

@@ -5,6 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface CSPDrogonCppControllerVariables extends PsiElement {
+public interface CSPDrogonCppControlBlock extends PsiElement {
+
+  @Nullable
+  CSPDrogonCppControlBlockEnd getCppControlBlockEnd();
+
+  @Nullable
+  CSPDrogonCppControlBlockStart getCppControlBlockStart();
 
 }

@@ -1,4 +1,3 @@
-// Copyright 2000-2022 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 package com.asdhammu.cspdrogon.language;
 
 import com.asdhammu.cspdrogon.language.psi.CSPDrogonTypes;
@@ -61,23 +60,24 @@ import static com.asdhammu.cspdrogon.language.CSPDrogonParserDefinition.*;
 
 RLF=\R
 WHITE_SPACE=[ \t\n\x0B\f\r]+
-
 PARAM_NAME=[a-zA-Z_][a-zA-Z0-9_]*
 COMMENT_CONTENT = ([^-] | [-][^-] | [-][-][^>])*
-
 ALPHA=[:letter:]
 DIGIT=[0-9]
+NUMBER = [0-9]+
 WHITE_SPACE_CHARS=[ \n\r\t\f\u2028\u2029\u0085]+
-
 TAG_NAME=({ALPHA}|"_"|":")({ALPHA}|{DIGIT}|"_"|":"|"."|"-")*
 /* see http://www.w3.org/TR/html5/syntax.html#syntax-attribute-name */
 ATTRIBUTE_NAME=([^ \n\r\t\f\"\'<>/=])+
-
 DTD_REF= "\"" [^\"]* "\"" | "'" [^']* "'"
 DOCTYPE= "<!" (D|d)(O|o)(C|c)(T|t)(Y|y)(P|p)(E|e)
 HTML= (H|h)(T|t)(M|m)(L|l)
 PUBLIC= (P|p)(U|u)(B|b)(L|l)(I|i)(C|c)
+// CPP
 CPP_INCLUDE = #include
+COMPARISON_OPERATOR = "==" | "!=" | "<" | ">" | "<=" | ">="
+CPP_IDENTIFIER=[a-zA-Z0-9_]*
+
 %state IN_DIRECTIVE
 %state IN_PARAMETER
 %state IN_COMMENT
@@ -93,6 +93,9 @@ CPP_INCLUDE = #include
 %state IN_DOCTYPE
 %state START_CPP_INCLUDE
 %state CPP_H_INCLUDE_DELIMITER
+%state IN_CPP_CONTROL
+%state IN_CPP_EXPECT_BRACE
+%state IN_CPP_CONTROL_ELSE
 %%
 
 <YYINITIAL> {
@@ -132,12 +135,45 @@ CPP_INCLUDE = #include
 }
 
 <IN_CPP_DATA> {
-    "$$<<"                        {return CSPDrogonTypes.DOLLARSIGN;}
-    {PARAM_NAME}                  {return CSPDrogonTypes.CPP_VARIABLE_NAME;}
+    "$$"                        {return CSPDrogonTypes.STREAM_OBJECT;}
+    "if"                        {yybegin(IN_CPP_CONTROL); return CSPDrogonTypes.IF;}
+    "while"                     {yybegin(IN_CPP_CONTROL); return CSPDrogonTypes.WHILE;}
+    "for"                       {yybegin(IN_CPP_CONTROL); return CSPDrogonTypes.FOR;}
+    "<<"                        {return CSPDrogonTypes.STREAM_OPERATOR;}
+    {CPP_IDENTIFIER}                  {return CSPDrogonTypes.IDENTIFIER;}
+    "}"                           { yybegin(IN_CPP_CONTROL_ELSE); return CSPDrogonTypes.RBRACE;}
     ";"                           {return CSPDrogonTypes.SEMICOLON;}
     "%>"                          {yybegin(YYINITIAL); return CSPDrogonTypes.CPP_VIEW_END;}
     {WHITE_SPACE}                 {return TokenType.WHITE_SPACE;}
 }
+
+<IN_CPP_CONTROL_ELSE>{
+    "else"                      {return CSPDrogonTypes.ELSE;}
+     "{"                        { yybegin(IN_CPP_DATA); return CSPDrogonTypes.LBRACE;}
+     {WHITE_SPACE}              {return TokenType.WHITE_SPACE;}
+     [^]                  { yybegin(IN_CPP_DATA); yypushback(1); break; }
+}
+
+
+<IN_CPP_CONTROL> {
+    "("                         {return CSPDrogonTypes.LPAREN;}
+     "!"                        {return CSPDrogonTypes.NOT;}
+     {COMPARISON_OPERATOR}      {return CSPDrogonTypes.COMPARISON_OPEARTOR;}
+      "&&"                      {return CSPDrogonTypes.AND;}
+      "||"                      {return CSPDrogonTypes.OR;}
+      "."                       {return CSPDrogonTypes.DOT;}
+      ","                       {return CSPDrogonTypes.COMMA;}
+      ";"                       {return CSPDrogonTypes.SEMICOLON;}
+     {CPP_IDENTIFIER}               {return CSPDrogonTypes.IDENTIFIER;}
+     ")"                        {yybegin(IN_CPP_EXPECT_BRACE); return CSPDrogonTypes.RPAREN;}
+    {WHITE_SPACE}               {return TokenType.WHITE_SPACE;}
+}
+
+<IN_CPP_EXPECT_BRACE> {
+    "{"                         {yybegin(IN_CPP_DATA); return CSPDrogonTypes.LBRACE;}
+     {WHITE_SPACE}              {return TokenType.WHITE_SPACE;}
+}
+
 
 <START_TAG_NAME, TAG_CHARACTERS> "<" { return CSPDrogonTypes.XML_START_TAG_START; }
 <YYINITIAL, END_TAG_NAME> "</" { return CSPDrogonTypes.XML_END_TAG_START; }

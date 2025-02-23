@@ -11,20 +11,26 @@ import static com.asdhammu.cspdrogon.language.psi.CSPDrogonTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.asdhammu.cspdrogon.language.psi.*;
 
-public class CSPDrogonCppControllerVariablesImpl extends ASTWrapperPsiElement implements CSPDrogonCppControllerVariables {
+public class CSPDrogonExpressionImpl extends ASTWrapperPsiElement implements CSPDrogonExpression {
 
-  public CSPDrogonCppControllerVariablesImpl(@NotNull ASTNode node) {
+  public CSPDrogonExpressionImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull CSPDrogonVisitor visitor) {
-    visitor.visitCppControllerVariables(this);
+    visitor.visitExpression(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof CSPDrogonVisitor) accept((CSPDrogonVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @NotNull
+  public List<CSPDrogonExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, CSPDrogonExpression.class);
   }
 
 }

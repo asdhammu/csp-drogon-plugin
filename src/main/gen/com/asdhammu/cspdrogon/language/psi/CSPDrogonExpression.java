@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface CSPDrogonCppContent extends PsiElement {
+public interface CSPDrogonExpression extends PsiElement {
 
-  @Nullable
-  CSPDrogonCppControlBlock getCppControlBlock();
-
-  @Nullable
-  CSPDrogonStreamExpression getStreamExpression();
+  @NotNull
+  List<CSPDrogonExpression> getExpressionList();
 
 }

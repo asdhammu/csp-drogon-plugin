@@ -52,18 +52,49 @@ pin=1
 
 cpp_header_file ::= H_FILE_START_DELIMITER H_FILE H_FILE_EXT H_FILE_END_DELIMITER
 
-cpp_directive ::= CPP_VIEW_START cpp_content CPP_VIEW_END {
-pin=1
-}
 
-cpp_content ::= cpp_variable_content | (cpp_controller_variables)*
+cpp_directive ::= CPP_VIEW_START cpp_content CPP_VIEW_END
 
-cpp_variable_content ::= DOLLARSIGN CPP_VARIABLE_NAME SEMICOLON
+cpp_content ::= stream_expression | cpp_control_block //| (cpp_block)*
 
-cpp_controller_variables ::= cpp_left_side CPP_EQ cpp_right_side
+// using $$<<
+stream_expression ::= STREAM_OBJECT STREAM_OPERATOR IDENTIFIER SEMICOLON
 
-private cpp_left_side ::= CPP_TYPE CPP_VARIABLE_NAME
-private cpp_right_side ::= CPP_AT_THE CPP_DOT CPP_GET BRACKET_START CPP_TYPE BRACKET_END ROUND_BRACKET_START DELI_START CPP_VARIABLE_NAME DELI_END ROUND_BRACKET_END SEMICOLON
+cpp_control_block ::= cpp_control_block_start | cpp_control_block_end
+
+cpp_control_block_start::= (if_statement | while_statement | for_statement ) LBRACE
+
+// <%c++ } %> or // <%c++ } else { %>
+cpp_control_block_end ::= RBRACE (ELSE LBRACE)?
+
+// <%c++ if(condition) { %>
+private if_statement ::= IF LPAREN condition RPAREN
+// <%c++ while(condition) { %>
+private while_statement ::= WHILE LPAREN condition RPAREN
+// <%c++ for(const auto& item: items) { %>
+private for_statement ::= FOR LPAREN for_init? SEMICOLON condition? SEMICOLON for_update? RPAREN
+
+private for_init::= (declaration | expression)
+private for_update ::= expression
+condition::= expression
+
+expression ::= or_expression
+
+private or_expression ::= and_expression (OR and_expression)*
+
+private and_expression ::= unary_expression (AND unary_expression)*
+
+private unary_expression ::= NOT? primary_expression | LPAREN expression RPAREN
+
+private primary_expression ::=
+        comparison_expression
+        | member_expression
+
+private comparison_expression ::= member_expression COMPARISON_OPEARTOR member_expression
+
+private member_expression ::= IDENTIFIER (DOT IDENTIFIER (LPAREN (IDENTIFIER (COMMA IDENTIFIER)*)? RPAREN)*)*
+
+private declaration ::= CPP_TYPE IDENTIFIER (CPP_EQ expression)? SEMICOLON
 
 view_directive ::= VIEW_START directive_content {
 pin=1

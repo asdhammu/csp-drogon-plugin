@@ -11,14 +11,14 @@ import static com.asdhammu.cspdrogon.language.psi.CSPDrogonTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.asdhammu.cspdrogon.language.psi.*;
 
-public class CSPDrogonCppVariableContentImpl extends ASTWrapperPsiElement implements CSPDrogonCppVariableContent {
+public class CSPDrogonCppControlBlockEndImpl extends ASTWrapperPsiElement implements CSPDrogonCppControlBlockEnd {
 
-  public CSPDrogonCppVariableContentImpl(@NotNull ASTNode node) {
+  public CSPDrogonCppControlBlockEndImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull CSPDrogonVisitor visitor) {
-    visitor.visitCppVariableContent(this);
+    visitor.visitCppControlBlockEnd(this);
   }
 
   @Override

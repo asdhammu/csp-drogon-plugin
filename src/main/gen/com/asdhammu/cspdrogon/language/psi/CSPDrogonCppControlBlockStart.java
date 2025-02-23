@@ -5,6 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface CSPDrogonCppVariableContent extends PsiElement {
+public interface CSPDrogonCppControlBlockStart extends PsiElement {
+
+  @Nullable
+  CSPDrogonCondition getCondition();
+
+  @NotNull
+  List<CSPDrogonExpression> getExpressionList();
 
 }

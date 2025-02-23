@@ -1,0 +1,7 @@
+<%c++ if(!test && c > k || y <= 9 && variable.count > 0) { %>
+    <h1>If works with multiple conditions</h1>
+<%c++ } %>
+
+<%c++ while(t > 0) { %>
+    <h1>While works </h1>
+<%c++ } %>

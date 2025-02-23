@@ -42,7 +42,7 @@ public class CSPDrogonHighlighter extends SyntaxHighlighterBase {
             TextAttributesKey.createTextAttributesKey(CSPDrogonTypes.SEMICOLON.toString(), DefaultLanguageHighlighterColors.SEMICOLON);
 
     public static final TextAttributesKey CPLUS_VARIABLE_Name =
-            TextAttributesKey.createTextAttributesKey(CSPDrogonTypes.CPP_VARIABLE_NAME.toString(), DefaultLanguageHighlighterColors.LOCAL_VARIABLE);
+            TextAttributesKey.createTextAttributesKey(CSPDrogonTypes.IDENTIFIER.toString(), DefaultLanguageHighlighterColors.LOCAL_VARIABLE);
 
     public static final TextAttributesKey CPLUS_VIEW_DIRECTIVE =
             TextAttributesKey.createTextAttributesKey(CSPDrogonTypes.CPP_VIEW_START.toString(), DefaultLanguageHighlighterColors.FUNCTION_DECLARATION);
@@ -114,7 +114,7 @@ public class CSPDrogonHighlighter extends SyntaxHighlighterBase {
             return SEMICOLON_NAME_KEYS;
         }
 
-        if (tokenType.equals(CSPDrogonTypes.CPP_VARIABLE_NAME)) {
+        if (tokenType.equals(CSPDrogonTypes.IDENTIFIER)) {
             return CPLUS_VARIABLE_NAME_KEYS;
         }
 
