@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.asdhammu"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -46,10 +46,9 @@ intellijPlatform {
         id.set("csp-drogon-plugin")
         name.set("CSP Drogon")
         version.set("1.0.0")
-        description.set("CSP drogon plugin")
+        description.set("CSP drogon plugin. Plugin provides basic html parsing, drogon directive parsing and c++ if else parsing")
         ideaVersion {
             sinceBuild.set("232")
-            untilBuild.set("242.*")
         }
     }
 }
