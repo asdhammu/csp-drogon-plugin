@@ -24,8 +24,6 @@ COMMENT_CONTENT = ([^-] | [-][^-] | [-][-][^>])*
 // CPP
 CPP_INCLUDE = #include
 
-//TEMPLATE_DATA=[^] // Catch-all for everything not matched by specific <%c++ etc.
-
 %state IN_DIRECTIVE
 %state IN_PARAMETER
 %state IN_COMMENT
@@ -98,3 +96,5 @@ CPP_INCLUDE = #include
   "]]"                      { yybegin(YYINITIAL); return CSPDrogonTypes.PARAM_END;}
   {WHITE_SPACE}             {return TokenType.WHITE_SPACE;}
 }
+
+[^]                             { return CSPDrogonTypes.TEMPLATE_DATA; }

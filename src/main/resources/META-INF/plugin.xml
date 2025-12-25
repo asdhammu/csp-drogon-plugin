@@ -51,7 +51,7 @@
                 language="CSPDrogon"
                 implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonParserDefinition"/>
 
-        <!--<colorSettingsPage implementation="com.asdhammu.cspdrogon.language.CSPDrogonColorSettingsPage"/>-->
+        <colorSettingsPage implementation="com.asdhammu.cspdrogon.language.CSPDrogonColorSettingsPage"/>
         <lang.syntaxHighlighterFactory
                 language="CSPDrogon"
                 implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonSyntaxHighlighterFactory"/>
@@ -59,6 +59,10 @@
         <lang.elementManipulator
                 forClass="com.asdhammu.cspdrogon.language.psi.CSPDrogonCppContentBlock"
                 implementationClass="com.intellij.psi.AbstractElementManipulator"/>
+
+        <editorHighlighterProvider
+                filetype="CSP Drogon"
+                implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonEditorHighlighterProvider"/>
 
     </extensions>
 </idea-plugin>
