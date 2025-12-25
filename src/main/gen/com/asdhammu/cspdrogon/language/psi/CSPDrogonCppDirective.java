@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface CSPDrogonCppDirective extends PsiElement {
 
-  @NotNull
-  CSPDrogonCppContent getCppContent();
+  @Nullable
+  CSPDrogonCppContentBlock getCppContentBlock();
 
 }

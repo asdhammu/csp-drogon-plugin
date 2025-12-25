@@ -1,3 +1,4 @@
+/*
 package com.asdhammu.cspdrogon.language;
 
 import com.asdhammu.cspdrogon.language.psi.*;
@@ -59,3 +60,4 @@ public class CSPDrogonAnnotator implements Annotator {
         return element.getText().endsWith(".csp");
     }
 }
+*/

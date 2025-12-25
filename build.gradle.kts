@@ -19,7 +19,7 @@ repositories {
 dependencies {
     intellijPlatform {
         instrumentationTools()
-        create("CL", "2024.2.2")
+        create("CL", "2024.2.3")
         testFramework(TestFrameworkType.Platform)
     }
     testImplementation("junit:junit:4.13.2")

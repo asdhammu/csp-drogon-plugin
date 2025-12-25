@@ -28,9 +28,9 @@ public class CSPDrogonCppDirectiveImpl extends ASTWrapperPsiElement implements C
   }
 
   @Override
-  @NotNull
-  public CSPDrogonCppContent getCppContent() {
-    return findNotNullChildByClass(CSPDrogonCppContent.class);
+  @Nullable
+  public CSPDrogonCppContentBlock getCppContentBlock() {
+    return findChildByClass(CSPDrogonCppContentBlock.class);
   }
 
 }
