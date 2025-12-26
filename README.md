@@ -1,9 +1,7 @@
-# csp drogon plugin
+# CSP Drogon plugin
 
-Plugin provides basic html parsing, drogon directive parsing
-and c++ if else parsing
+Plugin for csp files for Drogon Framework (https://github.com/drogonframework/drogon)
 
-### Known issues
-
- - c++ variables, methods parsing
- - better html tags highlighting
+ - HTML Parsing
+ - CPP Parsing
+ - Syntax Highlighting
