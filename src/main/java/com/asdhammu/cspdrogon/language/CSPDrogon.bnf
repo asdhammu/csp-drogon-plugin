@@ -35,8 +35,9 @@ cpp_directive ::= CPP_VIEW_START cpp_content_block CPP_VIEW_END {
 }
 
 // Just a container for the injector to target
-cpp_content_block ::= CPP_CONTENT_TOKEN{
+cpp_content_block ::= CPP_CONTENT_TOKEN* {
     mixin="com.asdhammu.cspdrogon.language.psi.impl.CSPDrogonInjectionHostImpl"
+    implements="com.intellij.psi.PsiLanguageInjectionHost"
 }
 
 view_directive ::= VIEW_START directive_content {

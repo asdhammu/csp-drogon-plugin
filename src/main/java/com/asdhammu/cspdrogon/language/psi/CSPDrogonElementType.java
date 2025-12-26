@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class CSPDrogonElementType extends IElementType {
     public CSPDrogonElementType(@NonNls @NotNull String debugName) {
+
         super(debugName, CSPDrogonLanguage.INSTANCE);
     }
 }

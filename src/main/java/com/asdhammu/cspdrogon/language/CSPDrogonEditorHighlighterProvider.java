@@ -30,22 +30,22 @@ public class CSPDrogonEditorHighlighterProvider implements EditorHighlighterProv
         );
 
         // 2. Register the HTML layer
-        Language htmlLanguage = Language.findLanguageByID("HTML");
-        SyntaxHighlighter htmlHighlighter = null;
-
-        if (htmlLanguage != null) {
-            htmlHighlighter = SyntaxHighlighterFactory.getSyntaxHighlighter(htmlLanguage, project, virtualFile);
-        }
-
-        if (htmlHighlighter == null) {
-            htmlHighlighter = new HtmlFileHighlighter();
-        }
-
         highlighter.registerLayer(
                 CSPDrogonTypes.TEMPLATE_DATA,
-                new LayerDescriptor(htmlHighlighter, "")
+                new LayerDescriptor(new HtmlFileHighlighter(), "")
         );
 
+        // using ObjectiveC as there is no cpp language
+        Language cppLanguage = Language.findLanguageByID("ObjectiveC");
+        if (cppLanguage != null) {
+            SyntaxHighlighter cppHighlighter = SyntaxHighlighterFactory.getSyntaxHighlighter(cppLanguage, project, virtualFile);
+            if (cppHighlighter != null) {
+                highlighter.registerLayer(
+                        CSPDrogonTypes.CPP_CONTENT_TOKEN,
+                        new LayerDescriptor(cppHighlighter, "")
+                );
+            }
+        }
         return highlighter;
     }
 }

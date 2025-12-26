@@ -11,7 +11,6 @@ import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,16 +19,13 @@ public class CSPCppInjector implements MultiHostInjector {
         if (!(host instanceof CSPDrogonCppContentBlock)) return;
 
         PsiFile file = host.getContainingFile();
-        // Gather ALL C++ blocks in the file
+        // Gather all C++ blocks in the file
         List<CSPDrogonCppContentBlock> allBlocks = new ArrayList<>(
                 PsiTreeUtil.findChildrenOfType(file, CSPDrogonCppContentBlock.class)
         );
-
-        // CRITICAL: Only trigger the injection on the FIRST block
-        // This allows the registrar to stitch all blocks into one virtual file
         if (allBlocks.isEmpty() || allBlocks.get(0) != host) return;
 
-        Language cppLanguage = Language.findLanguageByID("CPP"); // Ensure this ID is correct for your environment
+        Language cppLanguage = Language.findLanguageByID("ObjectiveC");
         if (cppLanguage == null) return;
 
         // Prefixes ensure the code is wrapped in a valid function scope
@@ -47,16 +43,6 @@ public class CSPCppInjector implements MultiHostInjector {
             );
         }
         registrar.doneInjecting();
-    }
-
-    private List<CSPDrogonCppContentBlock> findAllCppBlocks(PsiFile file) {
-        if (file == null) return Collections.emptyList();
-
-        // Recursively finds all elements of the specified type in the file
-        Collection<CSPDrogonCppContentBlock> foundBlocks =
-                PsiTreeUtil.findChildrenOfType(file, CSPDrogonCppContentBlock.class);
-
-        return new ArrayList<>(foundBlocks);
     }
 
     @Override
