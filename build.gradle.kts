@@ -50,6 +50,7 @@ intellijPlatform {
         description.set("CSP drogon plugin. Plugin provides html and CPP parsing for drogon directives")
         ideaVersion {
             sinceBuild.set("232")
+            untilBuild.set(provider{null})
         }
     }
 }
