@@ -27,10 +27,4 @@ public class CSPDrogonLayoutDirectiveImpl extends ASTWrapperPsiElement implement
     else super.accept(visitor);
   }
 
-  @Override
-  @Nullable
-  public CSPDrogonFileReference getFileReference() {
-    return findChildByClass(CSPDrogonFileReference.class);
-  }
-
 }

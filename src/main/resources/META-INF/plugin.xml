@@ -17,9 +17,8 @@
         <![CDATA[
             This plugin supports the CSP syntax for the DROGON framework
             <ul>
-                <li>Parse view, layout and C++ directives with basic color schemes</li>
-                <li>basic Html parsing</li>
-                <li>Provides error about the csp DROGON directives</li>
+                <li>HTML parsing and syntax highlighting</li>
+                <li>C++ parsing</li>
             </ul>
         ]]>
     </description>
@@ -27,17 +26,37 @@
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.xml</depends>
+
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-        <!-- File Type-->
-        <fileType name="CSP Drogon" implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonFileType"
-                  fileNames="INSTANCE" language="CSPDrogon" extensions="csp"/>
-        <annotator language="CSPDrogon" implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonAnnotator"/>
-        <lang.parserDefinition language="CSPDrogon"
-                               implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonParserDefinition"/>
-        <lang.syntaxHighlighter language="CSPDrogon"
-                                implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonHighlighter"/>
+
+        <lang.ast.factory language="CSPDrogon" implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonASTFactory"/>
+        <multiHostInjector implementation="com.asdhammu.cspdrogon.language.psi.CSPCppInjector"/>
+        <fileType name="CSP Drogon"
+                  implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonFileType"
+                  fileNames="INSTANCE"
+                  language="CSPDrogon"
+                  extensions="csp"/>
+
+        <lang.fileViewProviderFactory
+                language="CSPDrogon"
+                implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonFileViewProviderFactory"/>
+
+        <lang.parserDefinition
+                language="CSPDrogon"
+                implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonParserDefinition"/>
+
+        <colorSettingsPage implementation="com.asdhammu.cspdrogon.language.CSPDrogonColorSettingsPage"/>
+        <lang.syntaxHighlighterFactory
+                language="CSPDrogon"
+                implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonSyntaxHighlighterFactory"/>
+
+        <editorHighlighterProvider
+                filetype="CSP Drogon"
+                implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonEditorHighlighterProvider"/>
 
     </extensions>
 </idea-plugin>

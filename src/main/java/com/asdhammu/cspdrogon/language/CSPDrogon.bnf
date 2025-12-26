@@ -16,31 +16,7 @@
 
 CSPDirectiveFile ::= (item_)*
 
-private item_ ::= (html_element | doctype)
-
-doctype ::= XML_DOCTYPE_START doctype_content* XML_DOCTYPE_END
-
-doctype_content ::= XML_NAME | XML_DOCTYPE_PUBLIC | XML_ATTRIBUTE_VALUE_TOKEN
-
-html_element ::= empty_element | start_tag_element | csp_directive
-
-start_tag_element ::= startTag content endTag
-empty_element ::= startEmptyTag XML_EMPTY_ELEMENT_END
-
-private startTag ::= XML_START_TAG_START XML_NAME attribute* XML_TAG_END
-private endTag ::= XML_END_TAG_START XML_NAME XML_TAG_END
-private startEmptyTag ::= XML_START_TAG_START XML_NAME attribute*
-
-private attribute ::= XML_NAME XML_EQ attributeValue
-private attributeValue ::= XML_ATTRIBUTE_VALUE_START_DELIMITER XML_ATTRIBUTE_VALUE_TOKEN* XML_ATTRIBUTE_VALUE_END_DELIMITER | XML_ATTRIBUTE_VALUE_TOKEN
-
-private content ::= ( html_element
-| XML_DATA_CHARACTERS
-| XML_CHAR_ENTITY_REF
-| XML_TAG_CHARACTERS
-| XML_ENTITY_REF_TOKEN
-| WHITE_SPACE
-)*
+private item_ ::= (csp_directive | TEMPLATE_DATA | OUTER_ELEMENT_TYPE)
 
 csp_directive ::= (view_directive | layout_directive | param_directive | cpp_directive | cpp_inc_directive) {
 pin=1
@@ -52,49 +28,14 @@ pin=1
 
 cpp_header_file ::= H_FILE_START_DELIMITER H_FILE H_FILE_EXT H_FILE_END_DELIMITER
 
+cpp_directive ::= CPP_VIEW_START cpp_content_block CPP_VIEW_END {
+    pin=1
+}
 
-cpp_directive ::= CPP_VIEW_START cpp_content CPP_VIEW_END
-
-cpp_content ::= stream_expression | cpp_control_block //| (cpp_block)*
-
-// using $$<<
-stream_expression ::= STREAM_OBJECT STREAM_OPERATOR IDENTIFIER SEMICOLON
-
-cpp_control_block ::= cpp_control_block_start | cpp_control_block_end
-
-cpp_control_block_start::= (if_statement | while_statement | for_statement ) LBRACE
-
-// <%c++ } %> or // <%c++ } else { %>
-cpp_control_block_end ::= RBRACE (ELSE LBRACE)?
-
-// <%c++ if(condition) { %>
-private if_statement ::= IF LPAREN condition RPAREN
-// <%c++ while(condition) { %>
-private while_statement ::= WHILE LPAREN condition RPAREN
-// <%c++ for(const auto& item: items) { %>
-private for_statement ::= FOR LPAREN for_init? SEMICOLON condition? SEMICOLON for_update? RPAREN
-
-private for_init::= (declaration | expression)
-private for_update ::= expression
-condition::= expression
-
-expression ::= or_expression
-
-private or_expression ::= and_expression (OR and_expression)*
-
-private and_expression ::= unary_expression (AND unary_expression)*
-
-private unary_expression ::= NOT? primary_expression | LPAREN expression RPAREN
-
-private primary_expression ::=
-        comparison_expression
-        | member_expression
-
-private comparison_expression ::= member_expression COMPARISON_OPEARTOR member_expression
-
-private member_expression ::= IDENTIFIER (DOT IDENTIFIER (LPAREN (IDENTIFIER (COMMA IDENTIFIER)*)? RPAREN)*)*
-
-private declaration ::= CPP_TYPE IDENTIFIER (CPP_EQ expression)? SEMICOLON
+cpp_content_block ::= CPP_CONTENT_TOKEN* {
+    mixin="com.asdhammu.cspdrogon.language.psi.impl.CSPDrogonInjectionHostImpl"
+    implements="com.intellij.psi.PsiLanguageInjectionHost"
+}
 
 view_directive ::= VIEW_START directive_content {
 pin=1
@@ -106,21 +47,14 @@ pin=1
 methods=[getDirectiveType]
 }
 
-private directive_content ::= WHITE_SPACE* file_reference WHITE_SPACE* DIRECTIVE_END{
-pin=2
-}
-
-file_reference ::= FILE_NAME CSP_EXT {
+private directive_content ::= FILE_NAME DIRECTIVE_END{
 pin=1
-recoverWhile=file_reference_recover
 }
-
-private file_reference_recover ::= !(DIRECTIVE_END | WHITE_SPACE)
 
 param_directive ::= PARAM_START param_directive_content{
     pin = 1
 }
 
-private param_directive_content ::= WHITE_SPACE* PARAM_VARIABLE_NAME* WHITE_SPACE* PARAM_END{
-pin=2
+private param_directive_content ::= PARAM_VARIABLE_NAME* PARAM_END{
+pin=1
 }

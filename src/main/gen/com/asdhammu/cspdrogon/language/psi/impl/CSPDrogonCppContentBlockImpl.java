@@ -8,29 +8,22 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.asdhammu.cspdrogon.language.psi.CSPDrogonTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.asdhammu.cspdrogon.language.psi.*;
 
-public class CSPDrogonExpressionImpl extends ASTWrapperPsiElement implements CSPDrogonExpression {
+public class CSPDrogonCppContentBlockImpl extends CSPDrogonInjectionHostImpl implements CSPDrogonCppContentBlock {
 
-  public CSPDrogonExpressionImpl(@NotNull ASTNode node) {
+  public CSPDrogonCppContentBlockImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull CSPDrogonVisitor visitor) {
-    visitor.visitExpression(this);
+    visitor.visitCppContentBlock(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof CSPDrogonVisitor) accept((CSPDrogonVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public List<CSPDrogonExpression> getExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, CSPDrogonExpression.class);
   }
 
 }

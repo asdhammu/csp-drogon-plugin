@@ -20,32 +20,33 @@ import org.jetbrains.annotations.NotNull;
 
 public class CSPDrogonParserDefinition implements ParserDefinition {
 
-    public static final TokenSet WS = TokenSet.create(TokenType.WHITE_SPACE);
+    // Comment tokens
+    public static final IElementType CSP_COMMENT_START = new CSPDrogonTokenType("CSP_COMMENT_START");
+    public static final IElementType CSP_COMMENT_CONTENT = new CSPDrogonTokenType("CSP_COMMENT_CONTENT");
+    public static final IElementType CSP_COMMENT_END = new CSPDrogonTokenType("CSP_COMMENT_END");
+
+
     public static final IFileElementType FILE = new IFileElementType(CSPDrogonLanguage.INSTANCE);
-    public static final IElementType CSP_COMMENT_START = new CSPDrogonTokenType("csp_comment_start");
-    public static final IElementType CSP_COMMENT_CONTENT = new CSPDrogonTokenType("csp_comment_content");
-    public static final IElementType CSP_COMMENT_END = new CSPDrogonTokenType("csp_comment_end");
 
+    // Marks tokens that HTML should ignore
+    public static final IElementType OUTER_ELEMENT_TYPE = new CSPDrogonTokenType("OUTER_ELEMENT_TYPE");
 
-    @Override
-    public @NotNull Lexer createLexer(Project project) {
-        return new CSPDrogonLexerAdaptor();
-    }
-
-    @Override
-    public @NotNull TokenSet getWhitespaceTokens() {
-        return WS;
-    }
+    // The filter that separates HTML content from CSP/C++
+    public static final IElementType TEMPLATE_DATA = new CSPDrogonTemplateDataElementType(
+            "CSP_TEMPLATE_DATA",
+            CSPDrogonLanguage.INSTANCE,
+            CSPDrogonTypes.TEMPLATE_DATA,
+            OUTER_ELEMENT_TYPE
+    );
 
     @Override
-    public @NotNull PsiParser createParser(Project project) {
-        return new CSPDrogonParser();
-    }
+    public @NotNull Lexer createLexer(Project project) { return new CSPDrogonLexerAdaptor(); }
 
     @Override
-    public @NotNull IFileElementType getFileNodeType() {
-        return FILE;
-    }
+    public @NotNull PsiParser createParser(Project project) { return new CSPDrogonParser(); }
+
+    @Override
+    public @NotNull IFileElementType getFileNodeType() { return FILE; }
 
     @Override
     public @NotNull TokenSet getCommentTokens() {
@@ -53,22 +54,14 @@ public class CSPDrogonParserDefinition implements ParserDefinition {
     }
 
     @Override
-    public @NotNull TokenSet getStringLiteralElements() {
-        return TokenSet.EMPTY;
-    }
+    public @NotNull TokenSet getStringLiteralElements() { return TokenSet.EMPTY; }
 
     @Override
-    public @NotNull PsiElement createElement(ASTNode node) {
-        return CSPDrogonTypes.Factory.createElement(node);
-    }
+    public @NotNull TokenSet getWhitespaceTokens() { return TokenSet.create(TokenType.WHITE_SPACE); }
 
     @Override
-    public @NotNull PsiFile createFile(@NotNull FileViewProvider viewProvider) {
-        return new CSPDrogonFile(viewProvider);
-    }
+    public @NotNull PsiElement createElement(ASTNode node) { return CSPDrogonTypes.Factory.createElement(node); }
 
     @Override
-    public @NotNull SpaceRequirements spaceExistenceTypeBetweenTokens(ASTNode left, ASTNode right) {
-        return SpaceRequirements.MAY;
-    }
+    public @NotNull PsiFile createFile(@NotNull FileViewProvider viewProvider) { return new CSPDrogonFile(viewProvider); }
 }
