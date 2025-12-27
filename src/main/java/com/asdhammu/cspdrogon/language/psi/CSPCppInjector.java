@@ -23,10 +23,14 @@ public class CSPCppInjector implements MultiHostInjector {
         List<CSPDrogonCppContentBlock> allBlocks = new ArrayList<>(
                 PsiTreeUtil.findChildrenOfType(file, CSPDrogonCppContentBlock.class)
         );
-        if (allBlocks.isEmpty() || allBlocks.get(0) != host) return;
+        if (allBlocks.isEmpty() || allBlocks.getFirst() != host) return;
 
-        Language cppLanguage = Language.findLanguageByID("ObjectiveC");
-        if (cppLanguage == null) return;
+        Language cppLanguage = Language.findLanguageByID("C++");
+        if (cppLanguage == null) {
+            // Fallback to Objective-C
+            cppLanguage = Language.findLanguageByID("ObjectiveC");
+            if (cppLanguage == null) return;
+        };
 
         // Prefixes ensure the code is wrapped in a valid function scope
         String prefix = "void __dummy_func() { ";
