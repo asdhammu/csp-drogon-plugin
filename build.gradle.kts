@@ -2,8 +2,8 @@ import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "1.9.25"
-    id("org.jetbrains.intellij.platform") version "2.1.0"
+    id("org.jetbrains.kotlin.jvm") version "2.3.0"
+    id("org.jetbrains.intellij.platform") version "2.10.5"
 }
 
 group = "com.asdhammu"
@@ -18,7 +18,6 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        instrumentationTools()
         create("CL", "2024.2.3")
         testFramework(TestFrameworkType.Platform)
         zipSigner()
@@ -27,8 +26,8 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 sourceSets["main"].java.srcDirs("src/main/gen")
@@ -49,7 +48,7 @@ intellijPlatform {
         version.set("1.1.0")
         description.set("CSP drogon plugin. Plugin provides html and CPP parsing for drogon directives")
         ideaVersion {
-            sinceBuild.set("232")
+            sinceBuild.set("242")
             untilBuild.set(provider{null})
         }
     }
@@ -61,14 +60,8 @@ tasks {
     }
 
     withType<JavaCompile> {
-        sourceCompatibility = "17"
-        targetCompatibility = "17"
+        sourceCompatibility = "21"
+        targetCompatibility = "21"
         options.encoding = "UTF-8"
-    }
-
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = "17"
-        }
     }
 }
