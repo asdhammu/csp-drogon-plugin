@@ -4,8 +4,9 @@ package com.asdhammu.cspdrogon.language.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.ContributedReferenceHost;
 
-public interface CSPDrogonCppDirective extends PsiElement {
+public interface CSPDrogonCppDirective extends ContributedReferenceHost {
 
   @Nullable
   CSPDrogonCppContentBlock getCppContentBlock();

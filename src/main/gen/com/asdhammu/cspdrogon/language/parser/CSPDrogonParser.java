@@ -129,14 +129,15 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FILE_NAME DIRECTIVE_END
+  // view_file_path DIRECTIVE_END
   static boolean directive_content(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "directive_content")) return false;
     if (!nextTokenIs(b, FILE_NAME)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_);
-    r = consumeTokens(b, 1, FILE_NAME, DIRECTIVE_END);
+    r = view_file_path(b, l + 1);
     p = r; // pin = 1
+    r = r && consumeToken(b, DIRECTIVE_END);
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -216,6 +217,18 @@ public class CSPDrogonParser implements PsiParser, LightPsiParser {
     r = r && directive_content(b, l + 1);
     exit_section_(b, l, m, r, p, null);
     return r || p;
+  }
+
+  /* ********************************************************** */
+  // FILE_NAME
+  public static boolean view_file_path(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "view_file_path")) return false;
+    if (!nextTokenIs(b, FILE_NAME)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, FILE_NAME);
+    exit_section_(b, m, VIEW_FILE_PATH, r);
+    return r;
   }
 
 }

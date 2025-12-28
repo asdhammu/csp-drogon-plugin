@@ -3,7 +3,7 @@ package com.asdhammu.cspdrogon.language.psi;
 
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.PsiElement;
+import com.intellij.psi.ContributedReferenceHost;
 import com.intellij.psi.PsiLanguageInjectionHost;
 
 public class CSPDrogonVisitor extends PsiElementVisitor {
@@ -13,38 +13,42 @@ public class CSPDrogonVisitor extends PsiElementVisitor {
   }
 
   public void visitCppDirective(@NotNull CSPDrogonCppDirective o) {
-    visitPsiElement(o);
+    visitContributedReferenceHost(o);
   }
 
   public void visitCppHeaderFile(@NotNull CSPDrogonCppHeaderFile o) {
-    visitPsiElement(o);
+    visitContributedReferenceHost(o);
   }
 
   public void visitCppIncDirective(@NotNull CSPDrogonCppIncDirective o) {
-    visitPsiElement(o);
+    visitContributedReferenceHost(o);
   }
 
   public void visitCspDirective(@NotNull CSPDrogonCspDirective o) {
-    visitPsiElement(o);
+    visitContributedReferenceHost(o);
   }
 
   public void visitLayoutDirective(@NotNull CSPDrogonLayoutDirective o) {
-    visitPsiElement(o);
+    visitContributedReferenceHost(o);
   }
 
   public void visitParamDirective(@NotNull CSPDrogonParamDirective o) {
-    visitPsiElement(o);
+    visitContributedReferenceHost(o);
   }
 
   public void visitViewDirective(@NotNull CSPDrogonViewDirective o) {
-    visitPsiElement(o);
+    visitContributedReferenceHost(o);
+  }
+
+  public void visitViewFilePath(@NotNull CSPDrogonViewFilePath o) {
+    visitContributedReferenceHost(o);
   }
 
   public void visitPsiLanguageInjectionHost(@NotNull PsiLanguageInjectionHost o) {
     visitElement(o);
   }
 
-  public void visitPsiElement(@NotNull PsiElement o) {
+  public void visitContributedReferenceHost(@NotNull ContributedReferenceHost o) {
     visitElement(o);
   }
 

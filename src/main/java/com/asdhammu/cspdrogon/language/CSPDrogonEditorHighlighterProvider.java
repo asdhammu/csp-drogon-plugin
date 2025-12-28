@@ -35,8 +35,11 @@ public class CSPDrogonEditorHighlighterProvider implements EditorHighlighterProv
                 new LayerDescriptor(new HtmlFileHighlighter(), "")
         );
 
-        // using ObjectiveC as there is no cpp language
-        Language cppLanguage = Language.findLanguageByID("ObjectiveC");
+        Language cppLanguage = Language.findLanguageByID("C++");
+        if (cppLanguage == null) {
+            // Fallback to Objective-C
+            cppLanguage = Language.findLanguageByID("ObjectiveC");
+        };
         if (cppLanguage != null) {
             SyntaxHighlighter cppHighlighter = SyntaxHighlighterFactory.getSyntaxHighlighter(cppLanguage, project, virtualFile);
             if (cppHighlighter != null) {
