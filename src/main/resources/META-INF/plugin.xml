@@ -29,12 +29,23 @@
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.xml</depends>
 
+
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
 
         <lang.ast.factory language="CSPDrogon" implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonASTFactory"/>
         <multiHostInjector implementation="com.asdhammu.cspdrogon.language.psi.CSPCppInjector"/>
+
+        <psi.referenceContributor
+                language="CSPDrogon"
+                implementation="com.asdhammu.cspdrogon.language.psi.CSPDrogonFileReferenceContributor"/>
+
+        <codeInsight.lineMarkerProvider
+                language="CSPDrogon"
+                implementationClass="com.asdhammu.cspdrogon.language.psi.CSPDrogonViewLineMarkerProvider"
+        />
+
         <fileType name="CSP Drogon"
                   implementationClass="com.asdhammu.cspdrogon.language.CSPDrogonFileType"
                   fileNames="INSTANCE"

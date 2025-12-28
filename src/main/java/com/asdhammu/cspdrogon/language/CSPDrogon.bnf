@@ -12,6 +12,7 @@
     tokenTypeClass="com.asdhammu.cspdrogon.language.psi.CSPDrogonTokenType"
 
     psiImplUtilClass="com.asdhammu.cspdrogon.language.psi.impl.CSPDrogonPsiImplUtil"
+    implements="com.intellij.psi.ContributedReferenceHost"
 }
 
 CSPDirectiveFile ::= (item_)*
@@ -47,8 +48,12 @@ pin=1
 methods=[getDirectiveType]
 }
 
-private directive_content ::= FILE_NAME DIRECTIVE_END{
+private directive_content ::= view_file_path DIRECTIVE_END {
 pin=1
+}
+
+view_file_path ::= FILE_NAME {
+ methods=[getReferences]
 }
 
 param_directive ::= PARAM_START param_directive_content{

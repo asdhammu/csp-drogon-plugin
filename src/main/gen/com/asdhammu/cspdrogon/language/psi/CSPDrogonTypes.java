@@ -16,6 +16,7 @@ public interface CSPDrogonTypes {
   IElementType LAYOUT_DIRECTIVE = new CSPDrogonElementType("LAYOUT_DIRECTIVE");
   IElementType PARAM_DIRECTIVE = new CSPDrogonElementType("PARAM_DIRECTIVE");
   IElementType VIEW_DIRECTIVE = new CSPDrogonElementType("VIEW_DIRECTIVE");
+  IElementType VIEW_FILE_PATH = new CSPDrogonElementType("VIEW_FILE_PATH");
 
   IElementType CPP_CONTENT_TOKEN = new CSPDrogonTokenType("CPP_CONTENT_TOKEN");
   IElementType CPP_INCLUDE = new CSPDrogonTokenType("CPP_INCLUDE");
@@ -63,6 +64,9 @@ public interface CSPDrogonTypes {
       }
       else if (type == VIEW_DIRECTIVE) {
         return new CSPDrogonViewDirectiveImpl(node);
+      }
+      else if (type == VIEW_FILE_PATH) {
+        return new CSPDrogonViewFilePathImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }
